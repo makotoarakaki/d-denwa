@@ -1,0 +1,81 @@
+/*!
+ * MyCSS v1.0.0
+ *
+ * Copyright 2015 m-a-creatin.com, Inc
+ */
+
+.box-left {
+	float: left;
+}
+
+.left-col-xs-1,
+.left-col-xs-2,
+.left-col-xs-3,
+.left-col-xs-4,
+.left-col-xs-5,
+.left-col-xs-6,
+.left-col-xs-7,
+.left-col-xs-8,
+.left-col-xs-9,
+.left-col-xs-10,
+.left-col-xs-11,
+.left-col-xs-12,
+.left-col-sm-1,
+.left-col-sm-2,
+.left-col-sm-3,
+.left-col-sm-4,
+.left-col-sm-5,
+.left-col-sm-6,
+.left-col-sm-7,
+.left-col-sm-8,
+.left-col-sm-9,
+.left-col-sm-10,
+.left-col-sm-11,
+.left-col-sm-12,
+.left-col-md-1,
+.left-col-md-2,
+.left-col-md-3,
+.left-col-md-4,
+.left-col-md-5,
+.left-col-md-6,
+.left-col-md-7,
+.left-col-md-8,
+.left-col-md-9,
+.left-col-md-10,
+.left-col-md-11,
+.left-col-md-12,
+.left-col-lg-1,
+.left-col-lg-2,
+.left-col-lg-3,
+.left-col-lg-4,
+.left-col-lg-5,
+.left-col-lg-6,
+.left-col-lg-7,
+.left-col-lg-8,
+.left-col-lg-9,
+.left-col-lg-10,
+.left-col-lg-11,
+.left-col-lg-12 {
+  float: left;
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.indexTable {
+	    border-collapse: collapse;
+	    table-layout: fixed;
+}
+.indexTable th,
+.indexTable td {
+    border: 1px solid #CCCCCC;
+    padding: 5px 10px;
+    text-align: left;
+}
+
+.container-fluid {
+margin-right: auto;
+margin-left: auto;
+max-width: 2000px; //例えば
+}
