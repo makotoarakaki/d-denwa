@@ -67,7 +67,7 @@ class Controller_Admin extends Controller_Base
 				}
 			}
 		}
-		$this->template->title = 'ログイン';
+		$this->template->title = '管理者ログイン';
 		$this->template->content = View::forge('admin/login', array('val' => $val), false);
 	}
 	/**
@@ -89,7 +89,7 @@ class Controller_Admin extends Controller_Base
 	 */
 	public function action_index()
 	{
-		$this->template = Request::forge('admin/daily')->execute();
+		$this->template = Request::forge('admin/user')->execute();
 	}
 }
 /* End of file admin.php */

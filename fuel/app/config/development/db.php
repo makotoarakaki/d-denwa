@@ -8,9 +8,9 @@ return array(
 		'connection'  => array(
 		'hostname'   => 'localhost',
 			'port'       => '3306',
-			'database'   => 'cm0001_dev',
-			'username'   => 'os',
-			'password'   => 'pass',		),
+			'database'   => 'ddenwa',
+			'username'   => 'moriguchi',
+			'password'   => 'ara3678',		),
 		'profiling' => true,
 	),
 );

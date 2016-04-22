@@ -40,7 +40,7 @@
 	<?php if ($current_user): ?>
 	<div class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-<!--
+
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 					<span class="icon-bar"></span>
@@ -49,7 +49,7 @@
 				</button>
 				<a class="navbar-brand" href="#">ダッシュボード</a>
 			</div>
--->
+
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
 					<?php
@@ -59,42 +59,6 @@
 					<li class="<?php echo Uri::segment(2) == $user_segment ? 'active' : '' ?>">
 						<?php echo Html::anchor('admin/user', 'ユーザー管理') ?>
 					</li>
-					<?php
-						$person_files = new GlobIterator(APPPATH.'classes/controller/admin/person.php');
-						$person_segment = $person_files->getBasename('.php');
-					?>
-					<li class="<?php echo Uri::segment(2) == $person_segment ? 'active' : '' ?>">
-						<?php echo Html::anchor('admin/person', '担当者管理') ?>
-					</li>
-					<?php
-						$item_files = new GlobIterator(APPPATH.'classes/controller/admin/item.php');
-						$item_segment = $item_files->getBasename('.php');
-					?>
-					<li class="<?php echo Uri::segment(2) == $item_segment ? 'active' : '' ?>">
-						<?php echo Html::anchor('admin/item', '商品管理') ?>
-					</li>
-					<?php
-						$customer_files = new GlobIterator(APPPATH.'classes/controller/admin/customer.php');
-						$customer_segment = $customer_files->getBasename('.php');
-					?>
-					<li class="<?php echo Uri::segment(2) == $customer_segment ? 'active' : '' ?>">
-						<?php echo Html::anchor('admin/customer', '顧客管理') ?>
-					</li>
-					<?php
-						$history_files = new GlobIterator(APPPATH.'classes/controller/admin/dailyhistory.php');
-						$history_segment = $history_files->getBasename('.php');
-					?>
-					<li class="<?php echo Uri::segment(2) == $history_segment ? 'active' : '' ?>">
-						<?php echo Html::anchor('admin/dailyhistory', '日別履歴管理') ?>
-					</li>
-					<?php
-						$daily_files = new GlobIterator(APPPATH.'classes/controller/admin/daily.php');
-						$daily_segment = $daily_files->getBasename('.php');
-					?>
-					<li class="<?php echo Uri::segment(2) == $daily_segment ? 'active' : '' ?>">
-						<?php echo Html::anchor('admin/daily', '日別管理') ?>
-					</li>
-				</ul>
 				<ul class="nav navbar-nav pull-right">
 					<li class="dropdown">
 						<a data-toggle="dropdown" class="dropdown-toggle" href="#"><?php echo $current_user->username ?> <b class="caret"></b></a>
