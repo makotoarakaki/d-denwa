@@ -79,3 +79,12 @@ margin-right: auto;
 margin-left: auto;
 max-width: 2000px; //例えば
 }
+
+.verticalcenter {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 400px;
+    height: 250px;
+    margin-left: -200px;
+    margin-top: -150px;
+}

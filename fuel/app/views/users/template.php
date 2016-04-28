@@ -53,17 +53,18 @@
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
 					<?php
-						$user_files = new GlobIterator(APPPATH.'classes/controller/admin/user.php');
+						$user_files = new GlobIterator(APPPATH.'classes/controller/users/user.php');
 						$user_segment = $user_files->getBasename('.php');
 					?>
 					<li class="<?php echo Uri::segment(2) == $user_segment ? 'active' : '' ?>">
-						<?php echo Html::anchor('admin/user', 'ユーザー管理') ?>
+						<?php echo Html::anchor('users/user', 'ユーザー管理') ?>
 					</li>
+				</ul>
 				<ul class="nav navbar-nav pull-right">
 					<li class="dropdown">
 						<a data-toggle="dropdown" class="dropdown-toggle" href="#"><?php echo $current_user->username ?> <b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><?php echo Html::anchor('admin/logout', 'ログアウト') ?></li>
+							<li><?php echo Html::anchor('users/logout', 'ログアウト') ?></li>
 						</ul>
 					</li>
 				</ul>

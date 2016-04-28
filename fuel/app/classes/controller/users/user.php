@@ -1,12 +1,12 @@
 <?php
-class Controller_Admin_User extends Controller_Admin
+class Controller_Users_User extends Controller_Users
 {
 
 	public function action_index()
 	{
 		$data['users'] = Model_User::find('all');
 		$this->template->title = "ユーザー管理";
-		$this->template->content = View::forge('admin/user/index', $data);
+		$this->template->content = View::forge('users/user/index', $data);
 
 	}
 
@@ -15,7 +15,7 @@ class Controller_Admin_User extends Controller_Admin
 		$data['user'] = Model_User::find($id);
 
 		$this->template->title = "ユーザー管理";
-		$this->template->content = View::forge('admin/user/view', $data);
+		$this->template->content = View::forge('users/user/view', $data);
 
 	}
 
@@ -40,7 +40,7 @@ class Controller_Admin_User extends Controller_Admin
 				{
 					Session::set_flash('success', e('新しいユーザー '.Input::post('username').' さんを追加しました。'));
 
-					Response::redirect('admin/user');
+					Response::redirect('users/user');
 				}
 
 				else
@@ -55,7 +55,7 @@ class Controller_Admin_User extends Controller_Admin
 		}
 
 		$this->template->title = "ユーザー管理";
-		$this->template->content = View::forge('admin/user/create');
+		$this->template->content = View::forge('users/user/create');
 
 	}
 
@@ -87,7 +87,7 @@ Log::debug('ユーザーパスワード', $user->password);
 			{
 				Session::set_flash('success', e('更新しました。'));
 
-				Response::redirect('admin/user');
+				Response::redirect('users/user');
 			}
 
 			else
@@ -111,7 +111,7 @@ Log::debug('ユーザーパスワード', $user->password);
 		}
 
 		$this->template->title = "ユーザー管理";
-		$this->template->content = View::forge('admin/user/edit');
+		$this->template->content = View::forge('users/user/edit');
 
 	}
 
@@ -129,7 +129,7 @@ Log::debug('ユーザーパスワード', $user->password);
 			Session::set_flash('error', e('削除に失敗しました。'));
 		}
 
-		Response::redirect('admin/user');
+		Response::redirect('users/user');
 
 	}
 

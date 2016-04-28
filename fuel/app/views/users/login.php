@@ -1,5 +1,10 @@
-<div class="row">
-	<div class="col-md-3">
+<!--<div class="row">-->
+<div class="container">
+<div class="panel panel-primary verticalcenter">
+	<div class="panel-heading">
+		<h1 class="panel-title">ログイン</h1>
+	</div>
+	<div class="col-xs-6">
 		<?php echo Form::open(array()); ?>
 
 			<?php if (isset($_GET['destination'])): ?>
@@ -29,9 +34,10 @@
 			</div>
 
 			<div class="actions">
-				<?php echo Form::submit(array('value'=>'ログイン', 'name'=>'submit', 'class' => 'btn btn-lg btn-primary btn-block')); ?>
+				<?php echo Form::submit(array('value'=>'ログイン', 'name'=>'submit', 'class' => 'btn btn-default')); ?>
 			</div>
 
 		<?php echo Form::close(); ?>
 	</div>
+</div>
 </div>
