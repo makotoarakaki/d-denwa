@@ -73,9 +73,10 @@
 	</div>
 	<?php endif; ?>
 
-	<div class="container-fluid">
+	<div class="container">
 		<div class="row">
-			<div class="col-md-12">
+<!--			<div class="col-md-12">-->
+			<div class="col-md-12 col-sm-12 col-xs-12">
 				<h1><?php echo $title; ?></h1>
 				<hr>
 <?php if (Session::get_flash('success')): ?>
@@ -95,14 +96,15 @@
 				</div>
 <?php endif; ?>
 			</div>
-			<div class="col-md-12">
+<!--			<div class="col-md-12">-->
+			<div class="col-md-12 col-sm-12 col-xs-12">
 <?php echo $content; ?>
 			</div>
 		</div>
 		<hr/>
 		<footer>
-			<p class="pull-right">Page rendered in {exec_time}s using {mem_usage}mb of memory.</p>
-			<p>
+<!--			<p class="pull-right">Page rendered in {exec_time}s using {mem_usage}mb of memory.</p>
+			<p>-->
 			<p>Copyright © 2015 エムエークリエイション. All rights reserved</p>
 				<!--<a href="http://fuelphp.com">FuelPHP</a> is released under the MIT license.<br>
 				<small>Version: <?php echo e(Fuel::VERSION); ?></small>
