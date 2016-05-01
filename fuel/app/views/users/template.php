@@ -76,9 +76,9 @@
 	<div class="container">
 		<div class="row">
 <!--			<div class="col-md-12">-->
-			<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="centered col-md-12 col-sm-12 col-xs-12">
 				<h1><?php echo $title; ?></h1>
-				<hr>
+				<!--<hr>-->
 <?php if (Session::get_flash('success')): ?>
 				<div class="alert alert-success alert-dismissable">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -101,14 +101,9 @@
 <?php echo $content; ?>
 			</div>
 		</div>
-		<hr/>
-		<footer>
-<!--			<p class="pull-right">Page rendered in {exec_time}s using {mem_usage}mb of memory.</p>
-			<p>-->
+		<!--<hr/>-->
+		<footer class="centered">
 			<p>Copyright © 2015 エムエークリエイション. All rights reserved</p>
-				<!--<a href="http://fuelphp.com">FuelPHP</a> is released under the MIT license.<br>
-				<small>Version: <?php echo e(Fuel::VERSION); ?></small>
-			</p>-->
 		</footer>
 	</div>
 </body>

@@ -106,3 +106,7 @@ max-width: 2000px; //例えば
   text-align:center;
   margin-bottom: 30px;
 }
+
+.centered {
+    text-align: center;
+}

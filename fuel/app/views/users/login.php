@@ -3,7 +3,7 @@
 <!--	<div class="col-md-3 col-sm-6 col-xs-3"> -->
 	<div class="form-signin">
 		<?php echo Form::open(array()); ?>
-
+	<!--		<h3 class="form-signin-heading">ログイン</h3>-->
 			<?php if (isset($_GET['destination'])): ?>
 				<?php echo Form::hidden('destination',$_GET['destination']); ?>
 			<?php endif; ?>
