@@ -3,13 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="4"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/USER/Documents/ddenwa/fuel/app/classes/controller/users/content.php</file>
             <file>file:/C:/Users/USER/Documents/ddenwa/fuel/app/classes/controller/users/user.php</file>
-            <file>file:/C:/Users/USER/Documents/ddenwa/public/assets/css/bootstrap.css</file>
-            <file>file:/C:/Users/USER/Documents/ddenwa/fuel/app/views/users/login.php</file>
-            <file>file:/C:/Users/USER/Documents/ddenwa/fuel/app/views/member/form.php</file>
-            <file>file:/C:/Users/USER/Documents/ddenwa/fuel/app/views/users/login_template.php</file>
+            <file>file:/C:/Users/USER/Documents/ddenwa/fuel/app/views/users/content/create.php</file>
+            <file>file:/C:/Users/USER/Documents/ddenwa/fuel/app/classes/model/content.php</file>
+            <file>file:/C:/Users/USER/Documents/ddenwa/fuel/app/views/users/content/_form.php</file>
+            <file>file:/C:/Users/USER/Documents/ddenwa/fuel/app/views/users/content/index.php</file>
             <file>file:/C:/Users/USER/Documents/ddenwa/fuel/app/views/users/template.php</file>
-            <file>file:/C:/Users/USER/Documents/ddenwa/public/assets/css/mycss.css</file>
+            <file>file:/C:/Users/USER/Documents/ddenwa/fuel/app/views/users/content/edit.php</file>
             <file>file:/C:/Users/USER/Documents/ddenwa/fuel/app/classes/controller/users.php</file>
         </group>
     </open-files>

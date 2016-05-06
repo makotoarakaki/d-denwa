@@ -7,27 +7,17 @@
 	<?php echo Asset::css(array(
 		'bootstrap.css',
 		'mycss.css',
-		'bootstrap-datepicker.css',
-		'jquery.timepicker.css',
-		'jqGrid/css/jquery-ui-1.10.4.custom.css',
-		'jqGrid/css/ui.jqgrid.css',
-		'jqGrid/css/ui.jqgrid-bootstrap.css',
-		'jqGrid/css/ui.jqgrid-bootstrap-ui.css',
 	)); ?>
 
 	<?php echo Asset::js(array(
 		'http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js',
 		'jqGrid/js/jquery-1.11.0.min.js',
 		'jqGrid/js/jquery-ui-1.10.4.custom.min.js',
-		'jqGrid/js/jquery.jqGrid.min.js',
-		'jqGrid/js/i18n/grid.locale-ja.js',
 		'bootstrap.js',
-		'bootstrap-datepicker.js',
-		'jquery.timepicker.js',
-		'locales/bootstrap-datepicker.ja.js',
 	)); ?>
 	<style>
-		body { margin: 50px; }
+/*		body { margin: 50px; } */
+		body { margin: 95px; }
 	</style>
 	<script>
 		$(function(){ $('.topbar').dropdown(); });
@@ -52,6 +42,13 @@
 
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
+					<?php
+						$content_files = new GlobIterator(APPPATH.'classes/controller/users/content.php');
+						$content_segment = $content_files->getBasename('.php');
+					?>
+					<li class="<?php echo Uri::segment(2) == $content_segment ? 'active' : '' ?>">
+						<?php echo Html::anchor('users/content', '広告管理') ?>
+					</li>
 					<?php
 						$user_files = new GlobIterator(APPPATH.'classes/controller/users/user.php');
 						$user_segment = $user_files->getBasename('.php');

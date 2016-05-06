@@ -89,7 +89,7 @@ class Controller_Users extends Controller_Base
 	 */
 	public function action_index()
 	{
-		$this->template = Request::forge('users/user')->execute();
+		$this->template = Request::forge('users/content')->execute();
 	}
 }
 /* End of file users.php */
