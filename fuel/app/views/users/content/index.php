@@ -8,6 +8,7 @@
 		<tr>
 			<th width="55">&nbsp;</th>
 			<th width="80">タイトル</th>
+			<th width="500">イメージ</th>
 			<th width="130">更新日時</th>
 		</tr>
 	</thead>
@@ -21,7 +22,23 @@
 				</div>
 			</td>
 			<td width="80"><?php echo $item->title; ?></td>
-			<td width="130"><?php echo Date::forge($item->updated_at)->format("%Y/%m/%d %H:%M"); ?></td>
+			<?php 
+				//ファイル名取得
+				$filename = $item->filename;
+				if (!empty($filename)) {
+				// 保存先よろファイル名を取得
+					$image_path = \File::get(DOCROOT.'/uploads/'.$filename);
+					$url = $image_path->get_path();	
+			?>
+					<td width="500"><?php echo Html::img($url, array('class' => 'thumbnail')); ?></td>
+			<?php
+				} else {
+			?>
+					<td width="500"><h4>画像がありません。</h4></td>
+			<?php
+				}
+			?>
+			<td width="130"><?php echo Date::forge($item->created_at)->format("%Y-%m-%d %H:%M:%S"); ?></td>
 		</tr>
 <?php endforeach; ?>	
 	</tbody>

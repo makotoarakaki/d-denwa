@@ -1,14 +1,12 @@
 <?php
 
-class Model_Content extends \Orm\Model
+class Model_Basicinfo extends \Orm\Model
 {
-	protected static $_table_name = 'contents';
+	protected static $_table_name = 'basicinfo';
 
 	protected static $_properties = array(
-		'id',
-		'title',
-		'filename',
-		'overview',
+		'temponame',
+		'telno',
 		'created_at',
 		'updated_at',
 	);
@@ -30,10 +28,9 @@ class Model_Content extends \Orm\Model
 		$val = Validation::forge($factory);
 		$val->add_callable('Validation_Japanese');
 
-		$val->add_field('title', 'タイトル', 'max_length[50]');
-		$val->add_field('overview', '概要', 'max_length[2000]');
+		$val->add_field('temponame', '店舗名', 'max_length[50]');
+		$val->add_field('telno', '電話番号', 'nozenkaku|max_length[15]');
 
 		return $val;
 	}
-	
 }

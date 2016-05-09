@@ -50,6 +50,13 @@
 						<?php echo Html::anchor('users/content', '広告管理') ?>
 					</li>
 					<?php
+						$basicinfo_files = new GlobIterator(APPPATH.'classes/controller/users/basicinfo.php');
+						$basicinfo_segment = $basicinfo_files->getBasename('.php');
+					?>
+					<li class="<?php echo Uri::segment(2) == $basicinfo_segment ? 'active' : '' ?>">
+						<?php echo Html::anchor('users/basicinfo', '基本情報') ?>
+					</li>
+					<?php
 						$user_files = new GlobIterator(APPPATH.'classes/controller/users/user.php');
 						$user_segment = $user_files->getBasename('.php');
 					?>

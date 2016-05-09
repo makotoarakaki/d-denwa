@@ -5,7 +5,38 @@ class Controller_Users_Content extends Controller_Users
 
 	public function action_index()
 	{
-		$data['contents'] = Model_Content::find('all');
+		$_perpage = 10;
+		$data = array();
+		$data['page'] = Input::get('page');
+		$cnt = DB::select()->from('contents')->execute()->count();
+
+		$pagination = \Pagination::forge('default', array(
+						'wrapper' => "<div class=\"pagination\">\n\t{pagination}\n</div>\n",
+						'uri_segment' => 'page',
+						'total_items' =>  $cnt,
+						'per_page' => $_perpage,
+						'name' => 'bootstrap'
+		));
+
+		$data['paginate'] = \Pagination::instance('default')->render();
+
+		if (\Pagination::get('current_page') == 1)
+		{
+			$data['offset'] = 0;
+		}
+		else
+		{
+			$data['offset'] = ($data['page'] -1) * $_perpage;
+		}
+
+		$data['contents'] = Model_Content::query()
+			->order_by('created_at', 'DESC')
+			->rows_offset($data['offset'])
+			->rows_limit($_perpage)
+		->get();			
+		
+		$this->template->set_global('total_customers', $pagination->total_items, false);
+
 		$this->template->title = "広告管理"; //default
 		$this->template->content = View::forge('users/content/index', $data);//default
 	}
@@ -30,12 +61,51 @@ class Controller_Users_Content extends Controller_Users
 		if (Input::method() == 'POST')
 		{
 			$val = Model_Content::validate('create', $_POST);
-			// 生年月日データ作成
-
+			
 			if ($val->run())
 			{
+				// 設定（ファイル保存場所）
+				$config = array(
+					'path' => DOCROOT . 'uploads/',
+					'randomize' => true,
+					'ext_whitelist' => array('pdf', 'img', 'jpg', 'jpeg', 'gif', 'png'),
+				);
+
+				// アップロード実行
+				Upload::process($config, 
+					array(
+						'max_size'    => 10240,
+						'auto_rename' => false,
+						'overwrite'   => true
+					));
+
+				// 検証
+				$filename = '';
+				$file = $_FILES['upload'];
+				if (Upload::is_valid())
+				{
+					$data = Upload::get_files(0);
+//					File::rename($data, 'file', '保存先パス');
+					// アップロードファイルを保存
+					Upload::save();
+					
+					foreach (Upload::get_files() as $file)
+					{
+						$filename = $file['saved_as'];
+					}				
+				} 
+				else 
+				{
+					Session::set_flash('error', 'ファイルの保存に失敗しました。');					
+					foreach (Upload::get_errors() as $error) {
+						Log::debug('ファイルアップロードエラー  '. $error['errors'][0]['message']);
+					}
+				}
+				
+				// データベースへ登録
 				$contents = Model_Content::forge(array(
 					'title' => Input::post('title'),
+					'filename' => $filename,
 					'overview' => Input::post('overview'),
 				));
 
