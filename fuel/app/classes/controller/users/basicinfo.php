@@ -22,17 +22,20 @@ class Controller_Users_Basicinfo extends Controller_Users
 				$cnt = DB::select()->from('basicinfo')->execute()->count();
 				
 				if ($cnt < 1) {
+					// 電話番号から"-"を削除する。
+					$teino = str_replace("-","",Input::post('telno'));
 					// データベースへ登録
 					$info = Model_Basicinfo::forge(array(
-						'username' => Input::post('temponame'),
-						'telno' => Input::post('telno'),
+						'username' => Input::post('username'),
+						'temponame' => Input::post('temponame'),
+						'telno' => $teino,
 					));
 
 					if ($info and $info->save())
 					{
 						Session::set_flash('success', '基本情報を追加しました。');
 
-						Response::redirect('users/content');
+						Response::redirect('users/basicinfo');
 					}
 
 					else
@@ -44,13 +47,15 @@ class Controller_Users_Basicinfo extends Controller_Users
 				else
 				{
 					// 更新処理
-					$info = Model_Basicinfo::find($id);
+					$info = Model_Basicinfo::find('all');
 					$val = Model_Basicinfo::validate('edit');
 
+					// 電話番号から"-"を削除する。
+					$teino = str_replace("-","",Input::post('telno'));
 					if ($val->run())
 					{
 						$info->temponame = Input::post('temponame');
-						$info->telno = Input::post('telno');
+						$info->telno = $teino;
 
 						if ($info->save())
 						{
@@ -69,7 +74,7 @@ class Controller_Users_Basicinfo extends Controller_Users
 					{
 						if (Input::method() == 'POST')
 						{
-							$customer->temponame = $val->validated('temponame');
+							$info->temponame = $val->validated('temponame');
 							$info->telno = $val->validated('telno');
 
 							Session::set_flash('error', $val->error());

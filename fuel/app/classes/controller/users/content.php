@@ -60,7 +60,7 @@ class Controller_Users_Content extends Controller_Users
 	{
 		if (Input::method() == 'POST')
 		{
-			$val = Model_Content::validate('create', $_POST);
+			$val = Model_Content::validate('create');
 			
 			if ($val->run())
 			{
@@ -85,7 +85,6 @@ class Controller_Users_Content extends Controller_Users
 				if (Upload::is_valid())
 				{
 					$data = Upload::get_files(0);
-//					File::rename($data, 'file', '保存先パス');
 					// アップロードファイルを保存
 					Upload::save();
 					
@@ -145,7 +144,7 @@ class Controller_Users_Content extends Controller_Users
 		}
 		
 		// バリデーション
-		$val = Model_Customer::validate('edit', $customer);
+		$val = Model_Customer::validate('edit');
 		
 		// 誕生日を元号・年・月・日で切り分ける
 		$birthday = Model_Customer::gengo($customer->birthday);

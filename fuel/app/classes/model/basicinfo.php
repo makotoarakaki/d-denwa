@@ -5,6 +5,8 @@ class Model_Basicinfo extends \Orm\Model
 	protected static $_table_name = 'basicinfo';
 
 	protected static $_properties = array(
+		'id',
+		'username',
 		'temponame',
 		'telno',
 		'created_at',

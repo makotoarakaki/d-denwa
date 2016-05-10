@@ -1,8 +1,9 @@
-<?php echo Form::open(array("class"=>"form-horizontal")); ?>
+<?php echo Form::open('users/basicinfo/create', array("class"=>"form-horizontal")); ?>
 	<fieldset>
 		<div class="form-group">
 			<div class="col-md-4 col-xs-7">
 				<h2>ユーザー名</h2>
+				<?php echo Form::hidden('username', $current_user->username); ?>
 				<h3><?php echo Form::label($current_user->username); ?></h3>
 			</div>
 		</div>
