@@ -66,7 +66,6 @@ class Controller_Users_User extends Controller_Users
 
 		if ($val->run())
 		{
-Log::debug('ユーザーパスワード', $user->password);
 			$auth = Auth::update_user(
 						array(
 							'password' => Input::post('password'), 
