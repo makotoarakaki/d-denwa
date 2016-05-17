@@ -67,7 +67,7 @@ class Controller_Users extends Controller_Base
 				}
 			}
 		}
-		$this->template->title = '管理者ログイン';
+		$this->template->title = 'ユーザーログイン';
 		$this->template->content = View::forge('users/login', array('val' => $val), false);
 	}
 	/**

@@ -43,16 +43,27 @@ class Controller_Users_Content extends Controller_Users
 
 	public function action_view($id = null)
 	{
-		is_null($id) and Response::redirect('users/content');
+		is_null($id) and Response::redirect('index');
+		// 店舗情報を取得
+		$info = Model_Basicinfo::find('first');
 
-		if ( ! $data['customer'] = Model_Customer::find($id))
+
+//		if ( ! $data['content'] = Model_Content::find($id))
+		if ( ! $content = Model_Content::find($id))
 		{
-			Session::set_flash('error', '顧客情報がありませんでした。'.$id);
-			Response::redirect('users/content');
+			Session::set_flash('error', '広告情報がありませんでした。'.$id);
+			Response::redirect('index');
 		}
-
-		$this->template->title = "顧客管理";
-		$this->template->content = View::forge('users/content/view', $data);
+		//ファイル名取得
+		if (!empty($content->filename)) {
+			$content->filename = \File::get(DOCROOT.'/uploads/'.$content->filename);		
+		} else {
+			$content->filename = \File::get(DOCROOT.'/uploads/'.no_photo.gif);
+		}
+		
+		View::set_global('title', $info->temponame);
+		View::set_global('content', $content);
+		$this->template->content = View::forge('index');
 
 	}
 
@@ -238,266 +249,4 @@ class Controller_Users_Content extends Controller_Users
 		Response::redirect('users/content');
 
 	}
-	
-	public function action_csvimport()
-	{
-		$this->template->title = "顧客管理";
-		$this->template->content = View::forge('users/content/csvimport');
-	}
-
-	public function action_csvupload()
-	{
-		Model_Csvimport::import(null);
-		$this->template->title = "顧客管理";
-		$this->template->content = View::forge('users/content/csvimport');
-	}
-	
-	/**
-	 * CSVエクスポート画面表示
-	 */
-	public function action_csvexport()
-	{
-		// 担当者リストを取得
-		$person_selects = Model_Customer::get_PersonList('担当者');	
-		$this->template->set_global('person_selects', $person_selects, false);
-
-		// 検索条件の取得
-		$person = Input::post('search_person');
-
-		if (!empty($person)) {
-			$data['customers'] = Model_Customer::query()
-				->where('person_id', $person)
-				->order_by('updated_at', 'DESC')->get();
-		// 検索条件なし
-		} else {
-			$_perpage = 50;
-			$data = array();
-
-			$data['page'] = \Input::get('page');
-			$cnt = DB::select()->from('customers')->execute()->count();
-
-			$pagination = \Pagination::forge('default', array(
-							'wrapper' => "<div class=\"pagination\">\n\t{pagination}\n</div>\n",
-							'uri_segment' => 'page',
-							'total_items' =>  $cnt,
-							'per_page' => $_perpage,
-							'name' => 'bootstrap'
-			));
-
-			$data['paginate'] = \Pagination::instance('default')->render();
-
-			if (\Pagination::get('current_page') == 1)
-			{
-				$data['offset'] = 0;
-			}
-			else
-			{
-				$data['offset'] = ($data['page'] -1) * $_perpage;
-			}
-
-			$data['customers'] = Model_Customer::query()
-				->order_by('updated_at', 'DESC')
-				->rows_offset($data['offset'])
-				->rows_limit($_perpage)
-			->get();
-
-			$this->template->set_global('total_customers', $pagination->total_items, false);		
-		}
-
-		$this->template->title = "顧客管理"; //default
-		$this->template->content = View::forge('users/content/csvexport', $data);//default
-	}
-	
-	public function action_tocsv()
-	{
-		// 検索条件の取得
-		$person = Input::post('hsearch_person');
-
-		if (!empty($person)) {
-			$data['customers'] = Model_Customer::query()
-				->where('person_id', $person)
-				->order_by('updated_at', 'DESC')->get();
-		// 検索条件なし
-		} else {
-
-			$_perpage = 50;
-			$data = array();
-			$data['page'] = \Input::get('page');
-			$cnt = DB::select()->from('customers')->execute()->count();
-
-			$pagination = \Pagination::forge('default', array(
-							'wrapper' => "<div class=\"pagination\">\n\t{pagination}\n</div>\n",
-							'uri_segment' => 'page',
-							'total_items' =>  $cnt,
-							'per_page' => $_perpage,
-							'name' => 'bootstrap'
-			));
-
-			$data['paginate'] = \Pagination::instance('default')->render();
-
-			if (\Pagination::get('current_page') == 1)
-			{
-				$data['offset'] = 0;
-			}
-			else
-			{
-				$data['offset'] = ($data['page'] -1) * $_perpage;
-			}		
-
-			$data['customers'] = Model_Customer::query()
-				->order_by('updated_at', 'DESC')
-				->rows_offset($data['offset'])
-				->rows_limit($_perpage)
-			->get();
-		}
-		
-		// CSVファイル名
-		$filename = 'customers'.date('Ymdhis');
-		// CSVデータ
-		$csv_data[] = array('顧客姓', '顧客名', 'フリガナ姓', 'フリガナ名', '性別', '担当者', '郵便番号', '住所１', '住所２', '住所３', '電話番号', '年齢', '生年月日', 'メールアドレス', '最終来店日', '備考', '更新日時');
-		
-		// チェックボックスのチェックされているＩＤを取得
-		$selects = (array) Input::post('select', '[]');
-		$i = 0;
-		foreach ($data['customers'] as $item) {
-			if (empty($selects[$i])) {
-				$csv_data[] = 
-					array(
-						$item->last_name, 
-						$item->firs_tname,
-						$item->ph_family_name,
-						$item->ph_name,
-						$item->sex,
-						$item->personname,
-						$item->post_code,
-						$item->adress1,
-						$item->adress2,
-						$item->adress3,
-						$item->phone,
-						$item->age,
-						$item->birthday,
-						$item->mail,
-						$item->last_visit_date,
-						$item->biko,
-						Date::forge($item->updated_at)->format("%Y/%m/%d %H:%M")
-					);					
-			} else {
-				if ($selects[$i] !== $item->id) {
-					$csv_data[] = 
-						array(
-							$item->last_name, 
-							$item->firs_tname,
-							$item->ph_family_name,
-							$item->ph_name,
-							$item->sex,
-							$item->personname,
-							$item->post_code,
-							$item->adress1,
-							$item->adress2,
-							$item->adress3,
-							$item->phone,
-							$item->age,
-							$item->birthday,
-							$item->mail,
-							$item->last_visit_date,
-							$item->biko,
-							Date::forge($item->updated_at)->format("%Y/%m/%d %H:%M")
-						);	
-				} else {
-					if ($i <= count($selects[$i])) {
-						$i++;					
-					}
-				}
-				
-			}
-		}
-		// CSV出力
- 		Model_Csvexport::export_csv($csv_data, $filename);
-	}
-	
-	public function action_history($id = null)
-	{
-		$_perpage = 10;
-		$data = array();
-		$data['page'] = Input::get('page');
-		$cnt = DB::select()->from('visithistorys')->where('customerid', $id)->execute()->count();
-
-		$pagination = \Pagination::forge('default', array(
-						'wrapper' => "<div class=\"pagination\">\n\t{pagination}\n</div>\n",
-						'uri_segment' => 'page',
-						'total_items' =>  $cnt,
-						'per_page' => $_perpage,
-						'name' => 'bootstrap'
-		));
-
-		$data['paginate'] = \Pagination::instance('default')->render();
-
-		if (\Pagination::get('current_page') == 1)
-		{
-			$data['offset'] = 0;
-		}
-		else
-		{
-			$data['offset'] = ($data['page'] -1) * $_perpage;
-		}
-
-		$data['visithistorys'] = Model_Visithistory::query()
-			->where('customerid', $id)
-			->order_by('updated_at', 'DESC')
-			->rows_offset($data['offset'])
-			->rows_limit($_perpage)
-		->get();			
-
-		$this->template->set_global('total_visithistorys', $pagination->total_items, false);
-		$this->template->set_global('weekday', $this->_weekday, false);
-		$this->template->title = "来店履歴管理"; //default
-		$this->template->content = View::forge('users/content/history', $data);//default
-	}
-	
-	public function action_historyedit($id = null)
-	{
-		is_null($id) and Response::redirect('users/content/history');
-
-		if ( ! $history = Model_Visithistory::find($id))
-		{
-			Session::set_flash('error', '更新するデータが見つかりませんでした #'.$id);
-			Response::redirect('users/content/history');
-		}
-		
-		// バリデーション
-		$val = Model_Visithistory::validate('edit', $history);
-
-		if ($val->run())
-		{
-			$history->memo = Input::post('memo');
-
-			if ($history->save())
-			{
-				Session::set_flash('success', '来店履歴情報を更新しました。');
-
-				Response::redirect('users/content/history/'.$history->customerid);
-			}
-
-			else
-			{
-				Session::set_flash('error', '来店履歴情報の更新に失敗しました。');
-			}
-		}
-
-		else
-		{
-			if (Input::method() == 'POST')
-			{
-				$history->memo = $val->validated('memo');
-
-				Session::set_flash('error', $val->error());
-			}
-
-			$this->template->set_global('history', $history, false);
-		}
-
-		$this->template->title = "来店履歴管理";
-		$this->template->content = View::forge('users/content/historyedit');
-	}
-
 }

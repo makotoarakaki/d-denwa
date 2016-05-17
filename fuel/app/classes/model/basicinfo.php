@@ -30,7 +30,7 @@ class Model_Basicinfo extends \Orm\Model
 		$val = Validation::forge($factory);
 		$val->add_callable('Validation_Japanese');
 
-		$val->add_field('temponame', '店舗名', 'max_length[50]');
+		$val->add_field('temponame', '店舗名', 'required|max_length[50]');
 		$val->add_field('telno', '電話番号', 'nozenkaku|max_length[15]');
 
 		return $val;
