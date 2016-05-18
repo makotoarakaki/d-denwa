@@ -48,23 +48,15 @@ class Controller_Users_Content extends Controller_Users
 		$info = Model_Basicinfo::find('first');
 
 
-//		if ( ! $data['content'] = Model_Content::find($id))
-		if ( ! $content = Model_Content::find($id))
+		if ( ! $data['content'] = Model_Content::find($id))
+//		if ( ! $content = Model_Content::find($id))
 		{
 			Session::set_flash('error', '広告情報がありませんでした。'.$id);
-			Response::redirect('index');
-		}
-		//ファイル名取得
-		if (!empty($content->filename)) {
-			$content->filename = \File::get(DOCROOT.'/uploads/'.$content->filename);		
-		} else {
-			$content->filename = \File::get(DOCROOT.'/uploads/'.no_photo.gif);
+			Response::redirect('users/content');
 		}
 		
-		View::set_global('title', $info->temponame);
-		View::set_global('content', $content);
-		$this->template->content = View::forge('index');
-
+		$this->template->title = "";
+		$this->template->content = View::forge('users/content/view', $data);
 	}
 
 	public function action_create()
@@ -144,57 +136,31 @@ class Controller_Users_Content extends Controller_Users
 	{
 		is_null($id) and Response::redirect('users/content');
 
-		// 担当者リストを取得
-		$person_selects = Model_Customer::get_PersonList('選択してください。');
-		$this->template->set_global('person_selects', $person_selects, false);
-
-		if ( ! $customer = Model_Customer::find($id))
+		if ( ! $contents = Model_Content::find($id))
 		{
 			Session::set_flash('error', '更新するデータが見つかりませんでした #'.$id);
 			Response::redirect('users/content');
 		}
 		
 		// バリデーション
-		$val = Model_Customer::validate('edit');
-		
-		// 誕生日を元号・年・月・日で切り分ける
-		$birthday = Model_Customer::gengo($customer->birthday);
-		// 切り分けた誕生日をそれぞれにセット
-		$customer->gengo = $birthday['gengo'];
-		$customer->birthday_year = $birthday['year'];
-		$customer->birthday_month = $birthday['month'];
-		$customer->birthday_day = $birthday['day'];
+		$val = Model_Content::validate('edit');
 
 		if ($val->run())
 		{
-			$customer->last_name = Input::post('last_name');
-			$customer->firs_tname = Input::post('firs_tname');
-			$customer->ph_family_name = Input::post('ph_family_name');
-			$customer->ph_name = Input::post('ph_name');
-			$customer->sex = Input::post('sex');
-			$customer->post_code = Input::post('post_code');
-			$customer->adress1 = Input::post('adress1');
-			$customer->adress2 = Input::post('adress2');
-			$customer->adress3 = Input::post('adress3');
-			$customer->phone = Input::post('phone');
-			$customer->age = Input::post('age');
-			$customer->birthday = Input::post('birthday');
-			$customer->mail = Input::post('mail');
-			$customer->person_id = Input::post('person_id');
-			$customer->personname = Input::post('personname');
-			$customer->last_visit_date = Input::post('last_visit_date');
-			$customer->biko = Input::post('biko');
+			$contents->title = Input::post('title');
+			$contents->filename = Input::post('filename');
+			$contents->overview = Input::post('overview');
 
-			if ($customer->save())
+			if ($contents->save())
 			{
-				Session::set_flash('success', $customer->last_name. " " .$customer->firs_tname.' 様の顧客情報を更新しました。');
+				Session::set_flash('success', '広告を更新しました。');
 
 				Response::redirect('users/content');
 			}
 
 			else
 			{
-				Session::set_flash('error', $customer->last_name. " " .$customer->firs_tname.' 様の顧客情報の更新に失敗しました。');
+				Session::set_flash('error', '広告の更新に失敗しました。');
 			}
 		}
 
@@ -202,31 +168,17 @@ class Controller_Users_Content extends Controller_Users
 		{
 			if (Input::method() == 'POST')
 			{
-				$customer->last_name = $val->validated('last_name');
-				$customer->firs_tname = $val->validated('firs_tname');
-				$customer->ph_family_name = $val->validated('ph_family_name');
-				$customer->ph_name = $val->validated('ph_name');
-				$customer->sex = $val->validated('sex');
-				$customer->post_code = $val->validated('post_code');
-				$customer->adress1 = $val->validated('adress1');
-				$customer->adress2 = $val->validated('adress2');
-				$customer->adress3 = $val->validated('adress3');
-				$customer->phone = $val->validated('phone');
-				$customer->age = $val->validated('age');
-				$customer->birthday = $val->validated('birthday');
-				$customer->mail = $val->validated('mail');
-				$customer->person_id = $val->validated('person_id');
-				$customer->personname = $val->validated('personname');
-				$customer->last_visit_date = $val->validated('last_visit_date');
-				$customer->biko = $val->validated('biko');
+				$contents->title = $val->validated('title');
+				$contents->filename = $val->validated('filename');
+				$contents->overview = $val->validated('overview');
 
 				Session::set_flash('error', $val->error());
 			}
 
-			$this->template->set_global('customer', $customer, false);
+			$this->template->set_global('contents', $contents, false);
 		}
 
-		$this->template->title = "顧客管理";
+		$this->template->title = "広告管理";
 		$this->template->content = View::forge('users/content/edit');
 	}
 

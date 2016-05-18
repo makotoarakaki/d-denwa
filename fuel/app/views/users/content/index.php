@@ -1,7 +1,7 @@
 <h2>広告一覧</h2>
 <br>
 <p>
-	<?php echo Html::anchor('users/content/create', '広告追加', array('class' => 'btn btn-success')); ?>
+	<?php echo Html::anchor('users/content/create', '広告追加', array('class' => 'btn btn-primary', 'style' => 'width: 100%; height: 45px;')); ?>
 </p>
 
 <div class="row">
@@ -22,7 +22,7 @@
 			<td width="55">
 				<div class="btn-toolbar">
 					<div class="btn-group">
-							<?php echo Html::anchor('users/content/view/'.$item->id, '<i class="icon-eye-open"></i> 詳細', array('class' => 'btn btn-default btn-sm')); ?>						<?php echo Html::anchor('admin/customer/edit/'.$item->id, '<i class="icon-wrench"></i> 修正', array('class' => 'btn btn-default btn-sm')); ?>						<?php echo Html::anchor('admin/customer/delete/'.$item->id, '<i class="icon-trash icon-white"></i> 削除', array('class' => 'btn btn-sm btn-danger', 'onclick' => "return confirm('本当に削除しますか?')")); ?>					</div>
+							<?php echo Html::anchor('users/content/view/'.$item->id, '<i class="icon-eye-open"></i> 詳細', array('class' => 'btn btn-default btn-sm', 'style' => 'margin-bottom: 5px')); ?>						<?php echo Html::anchor('users/content/edit/'.$item->id, '<i class="icon-wrench"></i> 修正', array('class' => 'btn btn-default btn-sm', 'style' => 'margin-bottom: 5px')); ?>						<?php echo Html::anchor('admin/customer/delete/'.$item->id, '<i class="icon-trash icon-white"></i> 削除', array('class' => 'btn btn-sm btn-danger', 'onclick' => "return confirm('本当に削除しますか?')")); ?>					</div>
 				</div>
 			</td>
 			<td width="80"><?php echo $item->title; ?></td>
@@ -55,5 +55,5 @@
 <?php endif; ?><p>
 
 <p>
-	<?php echo Html::anchor('users/content/create', '広告追加', array('class' => 'btn btn-success')); ?>
+	<?php echo Html::anchor('users/content/create', '広告追加', array('class' => 'btn btn-primary', 'style' => 'width: 100%; height: 45px;')); ?>
 </p>

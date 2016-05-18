@@ -115,3 +115,9 @@ max-width: 2000px; //例えば
     width: 200px;
     height: 200px;
 }
+
+#photo {
+    padding: 15px 0 15px 0;
+    margin: 0 auto 0 auto;
+    width: 840px;
+}

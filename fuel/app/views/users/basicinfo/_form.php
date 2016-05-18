@@ -28,7 +28,7 @@
 	<div class="form-group centered">
 		<label class='control-label'>&nbsp;</label>
 		<?php echo Form::submit('submit', '保存', array('class' => 'btn btn-primary')); ?>&nbsp;&nbsp;
-		<?php echo Html::anchor('users/basicinfo', 'キャンセル', array('class' => 'btn btn-danger')); ?>
+		<?php echo Html::anchor('users/content', 'キャンセル', array('class' => 'btn btn-danger')); ?>
 
 	</div>
 <?php echo Form::close(); ?>
