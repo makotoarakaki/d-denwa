@@ -18,28 +18,7 @@ class Controller_Ddenwa extends Controller
 	 */
 	public function action_index()
 	{
-		is_null($id) and Response::redirect('index');
-		// 店舗情報を取得
-		$info = Model_Basicinfo::find('first');
-
-
-//		if ( ! $data['content'] = Model_Content::find($id))
-		if ( ! $content = Model_Content::find($id))
-		{
-			Session::set_flash('error', '広告情報がありませんでした。'.$id);
-			Response::redirect('index');
-		}
-		//ファイル名取得
-		if (!empty($content->filename)) {
-			$content->filename = \File::get(DOCROOT.'/uploads/'.$content->filename);		
-		} else {
-			$content->filename = \File::get(DOCROOT.'/uploads/'.no_photo.gif);
-		}
-		
-		View::set_global('title', $info->temponame);
-//		View::set_global('content', $content);
-//		$this->template->content = View::forge('index');
-		return Response::forge(View::forge('ddenwa/index', $content));
+//		return Response::forge(Presenter::forge('ddenwa/index'));		
 	}
 
 	/**

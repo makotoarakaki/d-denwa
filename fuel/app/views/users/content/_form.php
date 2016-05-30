@@ -11,7 +11,22 @@
 		<div class="form-group">
 			<div class="col-md-4 col-xs-7">
 				<h2>画像</h2>
-				<?php echo Form::file('upload' , array('class' => 'btn btn-primary')); ?>
+			<?php 
+				//ファイル名取得
+				if (!empty($contents->filename)) {
+					$filename = $contents->filename;
+					// 保存先よろファイル名を取得
+					$image_path = \File::get(DOCROOT.'/uploads/'.$filename);
+					$url = $image_path->get_path();	
+			?>
+					<?php echo Html::img($url, array('class' => 'thumbnail')); ?>
+				<p><?php echo Html::anchor('users/content/image_delete/'.$contents->id, '<i class="icon-trash icon-white"></i> 削除', array('class' => 'btn btn-sm btn-danger', 'onclick' => "return confirm('この画像を本当に削除しますか?')")); ?></p>
+			
+
+			<?php
+				
+				}
+				echo Form::file('upload' , array('class' => 'btn btn-primary')); ?>
 			</div>
 		</div>
 	</fieldset>

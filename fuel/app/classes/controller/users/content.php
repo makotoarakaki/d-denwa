@@ -49,7 +49,6 @@ class Controller_Users_Content extends Controller_Users
 
 
 		if ( ! $data['content'] = Model_Content::find($id))
-//		if ( ! $content = Model_Content::find($id))
 		{
 			Session::set_flash('error', '広告情報がありませんでした。'.$id);
 			Response::redirect('users/content');
@@ -87,7 +86,6 @@ class Controller_Users_Content extends Controller_Users
 				$file = $_FILES['upload'];
 				if (Upload::is_valid())
 				{
-					$data = Upload::get_files(0);
 					// アップロードファイルを保存
 					Upload::save();
 					
@@ -96,13 +94,6 @@ class Controller_Users_Content extends Controller_Users
 						$filename = $file['saved_as'];
 					}				
 				} 
-				else 
-				{
-					Session::set_flash('error', 'ファイルの保存に失敗しました。');					
-					foreach (Upload::get_errors() as $error) {
-						Log::debug('ファイルアップロードエラー  '. $error['errors'][0]['message']);
-					}
-				}
 				
 				// データベースへ登録
 				$contents = Model_Content::forge(array(
@@ -147,8 +138,49 @@ class Controller_Users_Content extends Controller_Users
 
 		if ($val->run())
 		{
+			// 元のファイル名を取得
+			$sql = 'SELECT filename FROM cm_contents WHERE id = '.$id;
+			$data = DB::query($sql)->execute()->current();
+
+			if ($contents->filename)
+			{
+				// 保存先よろファイル名を取得
+				$image_path = \File::get(DOCROOT.'/uploads/'.$data['filename']);
+				$url = $image_path->get_path();
+				// ファイルの削除
+				File::delete($url);
+			}
+
+			// 設定（ファイル保存場所）
+			$config = array(
+				'path' => DOCROOT . 'uploads/',
+				'randomize' => true,
+				'ext_whitelist' => array('pdf', 'img', 'jpg', 'jpeg', 'gif', 'png'),
+			);
+
+			// アップロード実行
+			Upload::process($config, 
+				array(
+					'max_size'    => 10240,
+					'auto_rename' => false,
+					'overwrite'   => true
+				));
+			// 検証
+			$filename = '';
+			$file = $_FILES['upload'];
+			if (Upload::is_valid())
+			{
+				// アップロードファイルを保存
+				Upload::save();
+
+				foreach (Upload::get_files() as $file)
+				{
+					$filename = $file['saved_as'];
+				}				
+			} 
+
 			$contents->title = Input::post('title');
-			$contents->filename = Input::post('filename');
+			$contents->filename = $filename;
 			$contents->overview = Input::post('overview');
 
 			if ($contents->save())
@@ -201,4 +233,39 @@ class Controller_Users_Content extends Controller_Users
 		Response::redirect('users/content');
 
 	}
+
+	public function action_image_delete($id = null)
+	{
+		is_null($id) and Response::redirect('users/content');
+		
+		$sql = 'SELECT filename FROM cm_contents WHERE id = '.$id;
+		$data = DB::query($sql)->execute()->current();
+		
+		 $contents = Model_Content::find($id);
+		if ($contents->filename)
+		{
+			// 保存先よろファイル名を取得
+			$image_path = \File::get(DOCROOT.'/uploads/'.$data['filename']);
+			$url = $image_path->get_path();
+			// ファイルの削除
+			File::delete($url);
+			// ファイル名を空白へ更新
+			$contents->filename = '';
+			if ($contents->save())
+			{
+				Session::set_flash('success', 'ファイルを削除しました。');				
+			} else {
+				Session::set_flash('error', '更新に失敗しました。');				
+			}
+		}
+
+		else
+		{
+			Session::set_flash('error', 'ファイルの削除に失敗しました');
+		}
+
+		Response::redirect('users/content/edit/'.$id);
+
+	}
+	
 }

@@ -315,3 +315,9 @@ INFO - 2016-05-18 19:23:58 --> Fuel\Core\Request::execute - Called
 INFO - 2016-05-18 19:23:58 --> Fuel\Core\Request::execute - Setting main Request
 INFO - 2016-05-18 19:23:58 --> Fuel\Core\Request::__construct - Creating a new HMVC Request with URI = "users/content"
 INFO - 2016-05-18 19:23:58 --> Fuel\Core\Request::execute - Called
+INFO - 2016-05-18 19:32:05 --> Fuel\Core\Request::__construct - Creating a new main Request with URI = "users/content"
+INFO - 2016-05-18 19:32:05 --> Fuel\Core\Request::execute - Called
+INFO - 2016-05-18 19:32:05 --> Fuel\Core\Request::execute - Setting main Request
+INFO - 2016-05-18 19:32:21 --> Fuel\Core\Request::__construct - Creating a new main Request with URI = "users/content/view/8"
+INFO - 2016-05-18 19:32:21 --> Fuel\Core\Request::execute - Called
+INFO - 2016-05-18 19:32:21 --> Fuel\Core\Request::execute - Setting main Request
