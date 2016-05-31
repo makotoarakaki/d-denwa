@@ -1,28 +1,20 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
+<!--
+	Striped by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
 <html>
-<head>
-	<meta charset="utf-8">
-	<title>メイン</title>
-	<?php echo Asset::css(array(
-		'ddenwa/assets/css/main.css',
-	)); ?>
+	<head>
+		<title>Striped by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+	</head>
+	<body>
 
-	<?php echo Asset::js(array(
-		'ddenwa/assets/js/jquery.min.js',
-		'ddenwa/assets/js/skel.min.js',
-		'ddenwa/assets/js/util.js',
-		'ddenwa/assets/js/main.js',
-	)); ?>
-	<!--[if lte IE 8]>
-	<?php echo Asset::js(array(
-		'ddenwa/assets/js/ie/respond.min.js',
-		'ddenwa/assets//js/ie/html5shiv.js',
-	)); ?>
-    <![endif]-->
-
-
-</head>
-<body>
 		<!-- Content -->
 			<div id="content">
 				<div class="inner">
@@ -240,6 +232,12 @@
 
 			</div>
 
-	
-</body>
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
 </html>

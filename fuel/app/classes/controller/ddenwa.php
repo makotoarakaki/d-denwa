@@ -18,7 +18,14 @@ class Controller_Ddenwa extends Controller
 	 */
 	public function action_index()
 	{
-//		return Response::forge(Presenter::forge('ddenwa/index'));		
+		if ( ! $data['content'] = Model_Content::find(1))
+		{
+			Session::set_flash('error', '広告情報がありませんでした。'.$id);
+			Response::redirect('users/content');
+		}
+		
+//		$this->template->content = View::forge('ddenwa/index');
+		return Response::forge(View::forge('ddenwa/index'));		
 	}
 
 	/**

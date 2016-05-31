@@ -44,9 +44,6 @@ class Controller_Users_Content extends Controller_Users
 	public function action_view($id = null)
 	{
 		is_null($id) and Response::redirect('index');
-		// 店舗情報を取得
-		$info = Model_Basicinfo::find('first');
-
 
 		if ( ! $data['content'] = Model_Content::find($id))
 		{
@@ -138,11 +135,14 @@ class Controller_Users_Content extends Controller_Users
 
 		if ($val->run())
 		{
+			$filename = '';
+//			$file = $_FILES['upload'];
+
 			// 元のファイル名を取得
 			$sql = 'SELECT filename FROM cm_contents WHERE id = '.$id;
 			$data = DB::query($sql)->execute()->current();
-
-			if ($contents->filename)
+			
+			if (Upload::is_valid() && !empty($contents->filename))
 			{
 				// 保存先よろファイル名を取得
 				$image_path = \File::get(DOCROOT.'/uploads/'.$data['filename']);
@@ -166,8 +166,6 @@ class Controller_Users_Content extends Controller_Users
 					'overwrite'   => true
 				));
 			// 検証
-			$filename = '';
-			$file = $_FILES['upload'];
 			if (Upload::is_valid())
 			{
 				// アップロードファイルを保存
@@ -177,7 +175,9 @@ class Controller_Users_Content extends Controller_Users
 				{
 					$filename = $file['saved_as'];
 				}				
-			} 
+			} else {
+				$filename = Input::post('filename');
+			}
 
 			$contents->title = Input::post('title');
 			$contents->filename = $filename;
@@ -218,16 +218,29 @@ class Controller_Users_Content extends Controller_Users
 	{
 		is_null($id) and Response::redirect('users/content');
 
-		if ($customer = Model_Customer::find($id))
+		if ($contents = Model_Content::find($id))
 		{
-			$customer->delete();
+			// ファイル名を取得
+			$sql = 'SELECT filename FROM cm_contents WHERE id = '.$id;
+			$data = DB::query($sql)->execute()->current();
 
-			Session::set_flash('success', '顧客情報を削除しました。'.$id);
+			if ($contents->filename)
+			{
+				// 保存先よろファイル名を取得
+				$image_path = \File::get(DOCROOT.'/uploads/'.$data['filename']);
+				$url = $image_path->get_path();
+				// ファイルの削除
+				File::delete($url);
+			}
+			// データの削除
+			$contents->delete();
+
+			Session::set_flash('success', '広告情報を削除しました。');
 		}
 
 		else
 		{
-			Session::set_flash('error', 'Could not delete customer #'.$id);
+			Session::set_flash('error', '広告情報の削除に失敗しました。');
 		}
 
 		Response::redirect('users/content');
