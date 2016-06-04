@@ -18,14 +18,26 @@ class Controller_Ddenwa extends Controller
 	 */
 	public function action_index()
 	{
-		if ( ! $data['content'] = Model_Content::find(1))
+		// 広告情報の取得
+		$data['contents'] = Model_Content::query()
+			->where('mainflg', 1)->get();
+		// 基本情報の取得
+		$info = Model_Basicinfo::find('first');
+ 
+//		$data['temponame'] = $info->temponame;
+//		$data['telno'] = $info->telno;
+
+		if ( ! $data)
 		{
-			Session::set_flash('error', '広告情報がありませんでした。'.$id);
+			Session::set_flash('error', '広告情報がありませんでした。');
 			Response::redirect('users/content');
 		}
 		
-//		$this->template->content = View::forge('ddenwa/index');
-		return Response::forge(View::forge('ddenwa/index'));		
+        $view = View::forge('ddenwa/index', $data);
+		$view->set('temponame', $info->temponame);
+		$view->set('telno', $info->telno);
+
+		return Response::forge($view);		
 	}
 
 	/**

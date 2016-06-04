@@ -1712,7 +1712,8 @@
 /* Section/Article */
 
 	header {
-		margin: 0 0 2em 0;
+		/*margin: 0 0 2em 0;*/
+		margin: 0 auto;
 	}
 
 		header > p {
@@ -1725,7 +1726,7 @@
 
 	section, article {
 		margin-bottom: 3em;
-	}
+ 	}
 
 		section > :last-child,
 		section > .inner > :last-child, section:last-child, article > :last-child,

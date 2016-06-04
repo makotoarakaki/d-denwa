@@ -8,38 +8,60 @@
 	)); ?>
 
 	<?php echo Asset::js(array(
-		'ddenwa/assets/js/jquery.min.js',
-		'ddenwa/assets/js/skel.min.js',
-		'ddenwa/assets/js/util.js',
-		'ddenwa/assets/js/main.js',
+//		'ddenwa/assets/js/jquery.min.js',
+//		'ddenwa/assets/js/skel.min.js',
+//		'ddenwa/assets/js/util.js',
+//		'ddenwa/assets/js/main.js',
 	)); ?>
 	<!--[if lte IE 8]>
 	<?php echo Asset::js(array(
-		'ddenwa/assets/js/ie/respond.min.js',
-		'ddenwa/assets//js/ie/html5shiv.js',
+//		'ddenwa/assets/js/ie/respond.min.js',
+//		'ddenwa/assets//js/ie/html5shiv.js',
 	)); ?>
     <![endif]-->
 
 
 </head>
 <body>
-		<!-- Content -->
-			<div id="content">
-				<div class="inner">
+	<div class="container">
+	<!-- Content -->
+		<div id="content">
+			<div class="inner">
 
-					<!-- Post -->
-						<!--<article class="box post post-excerpt">-->
-						<article class="box post">
-							<header>
-								<h2><a href="#">Welcome to Striped</a></h2>
-							</header>
-							<div class="main">
-								<p><a href="tel:09037923678"><img src="http://localhost/ddenwa/C:\Users\USER\Documents\ddenwa\public\uploads\f9901d4294fdb552d5757c57ee37f087.jpg" alt="f9901d4294fdb552d5757c57ee37f087" /></a></p>
-								<p>A free, fully responsive HTML5 site template by HTML5 UP</p>
+				<!-- Post -->
+					<!--<article class="box post post-excerpt">-->
+					<article class="box post">
+						<?php foreach ($contents as $item): ?>
+						<header>
+							<div id="titleBar">
+								<span class="title"><?php echo $temponame; ?></span>
 							</div>
-						</article>
-				</div>
+
+							<h2><?php echo $item->title; ?></h2>
+						</header>
+						<div class="main">
+							<?php 
+								//ファイル名取得
+								$filename = $item->filename;
+								if (!empty($filename)) {
+								// 保存先よろファイル名を取得
+									$image_path = \File::get(DOCROOT.'/uploads/'.$filename);
+									$url = $image_path->get_path();
+								}
+							?>
+
+							<p><a href="tel:"<?php echo $telno; ?>><?php echo Html::img($url, array('class' => 'thumbnail')); ?></a></p>
+							<p><?php echo $item->overview; ?></p>
+						</div>
+						<?php endforeach; ?>
+					</article>
+			<!-- Copyright -->
+				<ul id="copyright">
+					<li>&copy; Untitled.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+				</ul>
 			</div>
+		</div>
+	</div>
 	
 </body>
 </html>
