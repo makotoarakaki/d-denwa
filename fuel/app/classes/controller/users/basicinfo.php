@@ -5,7 +5,7 @@ class Controller_Users_Basicinfo extends Controller_Users
 	public function action_index()
 	{
 		$this->template->title = "基本情報";
-		$info = Model_Basicinfo::find('first');
+		$info = Model_Basicinfo::find('first')->connection('user_db');
 
 		$this->template->set_global('info', $info, false);
 		$this->template->content = View::forge('users/basicinfo/index');
@@ -20,17 +20,20 @@ class Controller_Users_Basicinfo extends Controller_Users
 			if ($val->run())
 			{
 				// 登録がなかったらInsert
-				$cnt = DB::select()->from('basicinfo')->execute()->count();
+				$cnt = DB::select()->from('basicinfo')->execute('user_db')->count();
 				
 				if ($cnt < 1) {
 					// 電話番号から"-"を削除する。
 					$teino = str_replace("-","",Input::post('telno'));
 					// データベースへ登録
-					$info = Model_Basicinfo::forge(array(
-						'username' => Input::post('username'),
-						'temponame' => Input::post('temponame'),
-						'telno' => $teino,
-					));
+					$query = DB::insert('basicinfo', array('username', 'temponame', 'telno'))->execute('user_db');
+					$info = Model_Basicinfo::forge(
+						array(
+							'username' => Input::post('username'),
+							'temponame' => Input::post('temponame'),
+							'telno' => $teino,
+						)
+					);
 
 					if ($info and $info->save())
 					{

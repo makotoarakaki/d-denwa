@@ -1,64 +1,73 @@
 /*
-	Striped by HTML5 UP
-	html5up.net | @n33co
+	Phantom by HTML5 UP
+	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
 
-form input[type="text"],
-form input[type="email"],
-form input[type="password"],
-form select,
-form textarea {
-	position: relative;
-	box-shadow: none !important;
-	-ms-behavior: url("assets/js/ie/PIE.htc");}
+/* Form */
 
-input[type="button"],
-input[type="submit"],
-input[type="reset"],
-button,
-.button {
-	position: relative;
-	box-shadow: none !important;
-	-ms-behavior: url("assets/js/ie/PIE.htc");}
-
-.pagination .pages a {
-	position: relative;
-	box-shadow: none !important;
-	-ms-behavior: url("assets/js/ie/PIE.htc");
-}
-
-.box.calendar td a, .box.calendar td span {
-	position: relative;
-	box-shadow: none !important;
-	-ms-behavior: url("assets/js/ie/PIE.htc");
-}
-
-.box.text-style1 .inner {
-	position: relative;
-	box-shadow: none !important;
-	-ms-behavior: url("assets/js/ie/PIE.htc");
-}
-
-#nav li a {
-	position: relative;
-	box-shadow: none !important;
-	-ms-behavior: url("assets/js/ie/PIE.htc");
-}
-
-.box.post .info {
-	box-shadow: none !important;
-	-ms-behavior: url("assets/js/ie/PIE.htc");
-}
-
-	.box.post .info .stats li a {
-		position: relative;
-		box-shadow: none !important;
-		-ms-behavior: url("assets/js/ie/PIE.htc");
+	form .field {
+		float: none !important;
+		width: 100% !important;
+		padding-left: 0 !important;
 	}
 
-#logo {
-	position: relative;
-	box-shadow: none !important;
-	-ms-behavior: url("assets/js/ie/PIE.htc");
-}
+/* Button */
+
+	input[type="submit"],
+	input[type="reset"],
+	input[type="button"],
+	button,
+	.button {
+		border: solid 2px #585858 !important;
+	}
+
+		input[type="submit"]:hover,
+		input[type="reset"]:hover,
+		input[type="button"]:hover,
+		button:hover,
+		.button:hover {
+			border-color: #f2849e !important;
+		}
+
+		input[type="submit"].special,
+		input[type="reset"].special,
+		input[type="button"].special,
+		button.special,
+		.button.special {
+			border: none !important;
+		}
+
+/* Tiles */
+
+	.tiles article > .image:before, .tiles article > .image:after {
+		display: none;
+	}
+
+/* Header */
+
+	#header .logo .symbol {
+		display: none;
+	}
+
+	#header nav ul li a[href="#menu"] {
+		text-indent: 0;
+		width: auto;
+		font-size: 0.8em;
+	}
+
+		#header nav ul li a[href="#menu"]:before, #header nav ul li a[href="#menu"]:after {
+			display: none;
+		}
+
+/* Footer */
+
+	#footer > .inner section {
+		width: 50%;
+		margin-left: 3em;
+	}
+
+		#footer > .inner section:first-child {
+			margin-left: 0;
+			width: 40%;
+		}

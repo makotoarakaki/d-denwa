@@ -13,4 +13,13 @@ return array(
 			'password'   => 'ara3678',		),
 		'profiling' => true,
 	),
+   'user_db' => array(
+		'connection'  => array(
+		'hostname'   => 'localhost',
+			'port'       => '3306',
+			'database'   => 'ddenwa_user',
+			'username'   => 'moriguchi',
+			'password'   => 'ara3678',		),
+		'profiling' => true,
+    ),
 );
