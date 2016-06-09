@@ -5,7 +5,7 @@ class Controller_Users_Basicinfo extends Controller_Users
 	public function action_index()
 	{
 		$this->template->title = "基本情報";
-		$info = Model_Basicinfo::find('first')->connection('user_db');
+		$info = DB::select('temponame', 'telno')->from('basicinfo')->execute('user_db')->as_array();
 
 		$this->template->set_global('info', $info, false);
 		$this->template->content = View::forge('users/basicinfo/index');
@@ -26,7 +26,11 @@ class Controller_Users_Basicinfo extends Controller_Users
 					// 電話番号から"-"を削除する。
 					$teino = str_replace("-","",Input::post('telno'));
 					// データベースへ登録
-					$query = DB::insert('basicinfo', array('username', 'temponame', 'telno'))->execute('user_db');
+//					$query = DB::insert('basicinfo', array('username', 'temponame', 'telno'))->execute('user_db');
+					$query = DB::insert('basicinfo');
+					$query->columns(array('username', 'temponame', 'telno', 'created_at', 'updated_at'));
+					$query->values(array(Input::post('username'),Input::post('temponame'),$teino, time(), time()));
+/*
 					$info = Model_Basicinfo::forge(
 						array(
 							'username' => Input::post('username'),
@@ -34,8 +38,9 @@ class Controller_Users_Basicinfo extends Controller_Users
 							'telno' => $teino,
 						)
 					);
-
 					if ($info and $info->save())
+*/
+					if ($query->execute('user_db'))
 					{
 						Session::set_flash('success', '基本情報を追加しました。');
 
@@ -93,7 +98,7 @@ class Controller_Users_Basicinfo extends Controller_Users
 		}
 
 		$this->template->title = "基本情報";
-		$this->template->content = View::forge('users/basicinfo');
+		$this->template->content = View::forge('users/basicinfo/create');
 
 	}
 }

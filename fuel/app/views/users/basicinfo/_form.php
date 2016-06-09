@@ -12,7 +12,7 @@
 		<div class="form-group">
 			<div class="col-md-4 col-xs-7">
 				<h2>店舗名</h2>
-					<?php echo Form::input('temponame', Input::post('temponame', isset($info) ? $info->temponame : ''), array('class' => 'form-control')); ?>
+					<?php echo Form::input('temponame', Input::post('temponame', isset($info) ? $info[0]['temponame'] : ''), array('class' => 'form-control')); ?>
 			</div>
 		</div>
 	</fieldset>
@@ -20,7 +20,7 @@
 		<div class="form-group">
 			<div class="col-md-4 col-xs-7">
 				<h2>電話番号</h2>
-					<?php echo Form::input('telno', Input::post('telno', isset($info) ? $info->telno : ''), array('class' => 'form-control', 'type'=>'tel')); ?>
+					<?php echo Form::input('telno', Input::post('telno', isset($info) ? $info[0]['telno'] : ''), array('class' => 'form-control', 'type'=>'tel')); ?>
 			</div>
 		</div>
 	</fieldset>

@@ -1,2 +1,2 @@
 
-<?php echo render('users/content/_form'); ?>
+<?php echo render('users/basicinfo/_form'); ?>
