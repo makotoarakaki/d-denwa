@@ -26,20 +26,9 @@ class Controller_Users_Basicinfo extends Controller_Users
 					// 電話番号から"-"を削除する。
 					$teino = str_replace("-","",Input::post('telno'));
 					// データベースへ登録
-//					$query = DB::insert('basicinfo', array('username', 'temponame', 'telno'))->execute('user_db');
 					$query = DB::insert('basicinfo');
 					$query->columns(array('username', 'temponame', 'telno', 'created_at', 'updated_at'));
 					$query->values(array(Input::post('username'),Input::post('temponame'),$teino, time(), time()));
-/*
-					$info = Model_Basicinfo::forge(
-						array(
-							'username' => Input::post('username'),
-							'temponame' => Input::post('temponame'),
-							'telno' => $teino,
-						)
-					);
-					if ($info and $info->save())
-*/
 					if ($query->execute('user_db'))
 					{
 						Session::set_flash('success', '基本情報を追加しました。');
@@ -56,17 +45,19 @@ class Controller_Users_Basicinfo extends Controller_Users
 				else
 				{
 					// 更新処理
-					$info = Model_Basicinfo::find('first');
+					$info = DB::select('temponame', 'telno')->from('basicinfo')->execute('user_db')->as_array();
 					$val = Model_Basicinfo::validate('edit');
 
 					// 電話番号から"-"を削除する。
-					$teino = str_replace("-","",Input::post('telno'));
+					$telno = str_replace("-","",Input::post('telno'));
 					if ($val->run())
 					{
-						$info->temponame = Input::post('temponame');
-						$info->telno = $teino;
+						// UPDATEを発行
+						$update = DB::update('basicinfo')->set(array(
+								'temponame' => Input::post('temponame'), 'telno' => $telno,
+							))->execute('user_db');
 
-						if ($info->save())
+						if (0 <= $update)
 						{
 							Session::set_flash('success', '基本情報を更新しました。');
 

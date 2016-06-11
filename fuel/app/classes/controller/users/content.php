@@ -5,10 +5,10 @@ class Controller_Users_Content extends Controller_Users
 
 	public function action_index()
 	{
-		$_perpage = 10;
+		$_perpage = 5;
 		$data = array();
 		$data['page'] = Input::get('page');
-		$cnt = DB::select()->from('contents')->execute()->count();
+		$cnt = DB::select()->from('contents')->execute('user_db')->count();
 
 		$pagination = \Pagination::forge('default', array(
 						'wrapper' => "<div class=\"pagination\">\n\t{pagination}\n</div>\n",
@@ -33,7 +33,7 @@ class Controller_Users_Content extends Controller_Users
 			->order_by('created_at', 'DESC')
 			->rows_offset($data['offset'])
 			->rows_limit($_perpage)
-		->get();			
+		->get();
 		
 		$this->template->set_global('total_customers', $pagination->total_items, false);
 
