@@ -29,7 +29,7 @@ class Controller_Users_Content extends Controller_Users
 			$data['offset'] = ($data['page'] -1) * $_perpage;
 		}
 
-		$data['contents'] = Model_Content::query()
+		$data['contents'] = Model_Content::query()->connection('user_db')
 			->order_by('created_at', 'DESC')
 			->rows_offset($data['offset'])
 			->rows_limit($_perpage)
@@ -45,7 +45,8 @@ class Controller_Users_Content extends Controller_Users
 	{
 		is_null($id) and Response::redirect('index');
 
-		if ( ! $data['content'] = Model_Content::find($id))
+		$data['content'] = Model_Content::query()->connection('user_db')->where('id', $id)->get();
+		if ( ! $data)
 		{
 			Session::set_flash('error', '広告情報がありませんでした。'.$id);
 			Response::redirect('users/content');
@@ -93,13 +94,10 @@ class Controller_Users_Content extends Controller_Users
 				} 
 				
 				// データベースへ登録
-				$contents = Model_Content::forge(array(
-					'title' => Input::post('title'),
-					'filename' => $filename,
-					'overview' => Input::post('overview'),
-				));
-
-				if ($contents and $contents->save())
+				$query = DB::insert('contents');
+				$query->columns(array('title', 'filename', 'overview', 'created_at', 'updated_at'));
+				$query->values(array(Input::post('title'),$filename ,Input::post('overview'), time(), time()));
+				if ($query->execute('user_db'))
 				{
 					Session::set_flash('success', '広告情報を追加しました。');
 
@@ -124,7 +122,8 @@ class Controller_Users_Content extends Controller_Users
 	{
 		is_null($id) and Response::redirect('users/content');
 
-		if ( ! $contents = Model_Content::find($id))
+		$contents = Model_Content::query()->connection('user_db')->where('id', $id)->get();
+		if ( ! $contents )
 		{
 			Session::set_flash('error', '更新するデータが見つかりませんでした #'.$id);
 			Response::redirect('users/content');
@@ -136,11 +135,10 @@ class Controller_Users_Content extends Controller_Users
 		if ($val->run())
 		{
 			$filename = '';
-//			$file = $_FILES['upload'];
 
 			// 元のファイル名を取得
 			$sql = 'SELECT filename FROM cm_contents WHERE id = '.$id;
-			$data = DB::query($sql)->execute()->current();
+			$data = DB::query($sql)->execute('user_db')->current();
 			
 			if (Upload::is_valid() && !empty($contents->filename))
 			{
@@ -178,12 +176,15 @@ class Controller_Users_Content extends Controller_Users
 			} else {
 				$filename = Input::post('filename');
 			}
-
-			$contents->title = Input::post('title');
-			$contents->filename = $filename;
-			$contents->overview = Input::post('overview');
-
-			if ($contents->save())
+			$query = DB::update('contents');
+			$query->set(array(
+							'title' => Input::post('title'),
+							'filename' => $filename,
+							'overview' => Input::post('overview'),
+						)
+			);
+			$ret = $query->execute('user_db');
+			if(0 <= $ret)
 			{
 				Session::set_flash('success', '広告を更新しました。');
 
@@ -200,9 +201,9 @@ class Controller_Users_Content extends Controller_Users
 		{
 			if (Input::method() == 'POST')
 			{
-				$contents->title = $val->validated('title');
-				$contents->filename = $val->validated('filename');
-				$contents->overview = $val->validated('overview');
+				$contents[0]['title'] = $val->validated('title');
+				$contents[0]['filename'] = $val->validated('filename');
+				$contents[0]['overview'] = $val->validated('overview');
 
 				Session::set_flash('error', $val->error());
 			}
@@ -218,13 +219,14 @@ class Controller_Users_Content extends Controller_Users
 	{
 		is_null($id) and Response::redirect('users/content');
 
-		if ($contents = Model_Content::find($id))
+		$contents = Model_Content::query()->connection('user_db')->where('id', $id)->get();
+		if ( $contents )
 		{
 			// ファイル名を取得
 			$sql = 'SELECT filename FROM cm_contents WHERE id = '.$id;
-			$data = DB::query($sql)->execute()->current();
+			$data = DB::query($sql)->execute('user_db')->current();
 
-			if ($contents->filename)
+			if ($contents[0]['filename'])
 			{
 				// 保存先よろファイル名を取得
 				$image_path = \File::get(DOCROOT.'/uploads/'.$data['filename']);
@@ -233,7 +235,8 @@ class Controller_Users_Content extends Controller_Users
 				File::delete($url);
 			}
 			// データの削除
-			$contents->delete();
+			$query = DB::delete('contents')->and_where('id', $id);
+			$query->execute('user_db');
 
 			Session::set_flash('success', '広告情報を削除しました。');
 		}
@@ -252,10 +255,10 @@ class Controller_Users_Content extends Controller_Users
 		is_null($id) and Response::redirect('users/content');
 		
 		$sql = 'SELECT filename FROM cm_contents WHERE id = '.$id;
-		$data = DB::query($sql)->execute()->current();
+		$data = DB::query($sql)->execute('user_db')->current();
 		
-		 $contents = Model_Content::find($id);
-		if ($contents->filename)
+		$contents = Model_Content::query()->connection('user_db')->where('id', $id)->get();
+		if ($contents[0]['filename'])
 		{
 			// 保存先よろファイル名を取得
 			$image_path = \File::get(DOCROOT.'/uploads/'.$data['filename']);
@@ -263,8 +266,13 @@ class Controller_Users_Content extends Controller_Users
 			// ファイルの削除
 			File::delete($url);
 			// ファイル名を空白へ更新
-			$contents->filename = '';
-			if ($contents->save())
+			$query = DB::update('contents');
+			$query->set(array(
+							'filename' => '',
+						)
+			);
+			$ret = $query->execute('user_db');
+			if(1 <= $ret)
 			{
 				Session::set_flash('success', 'ファイルを削除しました。');				
 			} else {

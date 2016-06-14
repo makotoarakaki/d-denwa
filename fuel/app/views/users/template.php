@@ -7,6 +7,7 @@
 	<?php echo Asset::css(array(
 		'bootstrap.css',
 		'mycss.css',
+		'rsc/'
 	)); ?>
 
 	<?php echo Asset::js(array(
