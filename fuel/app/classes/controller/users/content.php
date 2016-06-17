@@ -201,9 +201,9 @@ class Controller_Users_Content extends Controller_Users
 		{
 			if (Input::method() == 'POST')
 			{
-				$contents[0]['title'] = $val->validated('title');
-				$contents[0]['filename'] = $val->validated('filename');
-				$contents[0]['overview'] = $val->validated('overview');
+				$contents[$id]['title'] = $val->validated('title');
+				$contents[$id]['filename'] = $val->validated('filename');
+				$contents[$id]['overview'] = $val->validated('overview');
 
 				Session::set_flash('error', $val->error());
 			}
@@ -225,8 +225,8 @@ class Controller_Users_Content extends Controller_Users
 			// ファイル名を取得
 			$sql = 'SELECT filename FROM cm_contents WHERE id = '.$id;
 			$data = DB::query($sql)->execute('user_db')->current();
-
-			if ($contents[0]['filename'])
+			
+			if ($contents[$id]['filename'])
 			{
 				// 保存先よろファイル名を取得
 				$image_path = \File::get(DOCROOT.'/uploads/'.$data['filename']);
@@ -258,7 +258,7 @@ class Controller_Users_Content extends Controller_Users
 		$data = DB::query($sql)->execute('user_db')->current();
 		
 		$contents = Model_Content::query()->connection('user_db')->where('id', $id)->get();
-		if ($contents[0]['filename'])
+		if ($contents[$id]['filename'])
 		{
 			// 保存先よろファイル名を取得
 			$image_path = \File::get(DOCROOT.'/uploads/'.$data['filename']);
@@ -286,6 +286,12 @@ class Controller_Users_Content extends Controller_Users
 		}
 
 		Response::redirect('users/content/edit/'.$id);
+
+	}
+	public function action_mainflg()
+	{
+		$id = Input::post('request');
+		Response::redirect('users/content');
 
 	}
 	

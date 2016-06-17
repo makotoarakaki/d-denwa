@@ -9,6 +9,7 @@ class Model_Content extends \Orm\Model
 		'title',
 		'filename',
 		'overview',
+		'mainflg',
 		'created_at',
 		'updated_at',
 	);

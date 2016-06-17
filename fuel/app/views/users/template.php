@@ -7,7 +7,8 @@
 	<?php echo Asset::css(array(
 		'bootstrap.css',
 		'mycss.css',
-		'rsc/'
+//		'ddenwa/rcs/style.min.css',
+		'ddenwa/rcs/rcswitcher.min.css',
 	)); ?>
 
 	<?php echo Asset::js(array(
@@ -15,6 +16,8 @@
 		'jqGrid/js/jquery-1.11.0.min.js',
 		'jqGrid/js/jquery-ui-1.10.4.custom.min.js',
 		'bootstrap.js',
+		'ddenwa/rcs/jquery-2.1.3.min.js',
+		'ddenwa/rcs/rcswitcher.min.js',
 	)); ?>
 	<style>
 /*		body { margin: 50px; } */
@@ -31,14 +34,15 @@
 	<?php if ($current_user): ?>
 	<div class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
+<!--
 				<a class="navbar-brand" href="#">ダッシュボード</a>
+-->
 			</div>
 
 			<div class="navbar-collapse collapse">
@@ -57,6 +61,7 @@
 					<li class="<?php echo Uri::segment(2) == $basicinfo_segment ? 'active' : '' ?>">
 						<?php echo Html::anchor('users/basicinfo', '基本情報') ?>
 					</li>
+<!--
 					<?php
 						$user_files = new GlobIterator(APPPATH.'classes/controller/users/user.php');
 						$user_segment = $user_files->getBasename('.php');
@@ -64,6 +69,7 @@
 					<li class="<?php echo Uri::segment(2) == $user_segment ? 'active' : '' ?>">
 						<?php echo Html::anchor('users/user', 'ユーザー管理') ?>
 					</li>
+-->
 				</ul>
 				<ul class="nav navbar-nav pull-right">
 					<li class="dropdown">
