@@ -1,4 +1,9 @@
-<script>		
+<script>
+var val = 0;
+function setid(value) {
+	alert('setval');
+	val = value;
+}
 window.onload = function(){
 
 		$('.gender :radio').rcSwitcher({
@@ -14,7 +19,10 @@ window.onload = function(){
 		// Listen to status changes
 		.on( 'turnon.rcSwitcher', function( e, data ){
 			//POSTメソッドで送るデータを定義します var flg = {パラメータ名 : 値};
-			var flg = {request : $('#main').val()};
+//			var flg = {request : $('#main').val()};
+			var flg = {request : val};
+//alert(data.$input[0].mainflg.value());
+alert($('#main').val());
 			/**
 			 * Ajax通信メソッド
 			 * @param type  : HTTP通信の種類
@@ -77,9 +85,9 @@ window.onload = function(){
 			<td width="55">
 				<div class="btn-toolbar">
 					<div class="btn-group">
-							<?php echo Html::anchor('users/content/view/'.$item->id, '<i class="icon-eye-open"></i> 詳細', array('class' => 'btn btn-default btn-sm', 'style' => 'margin-bottom: 5px')); ?>						<?php echo Html::anchor('users/content/edit/'.$item->id, '<i class="icon-wrench"></i> 修正', array('class' => 'btn btn-default btn-sm', 'style' => 'margin-bottom: 5px')); ?>						<?php echo Html::anchor('users/content/delete/'.$item->id, '<i class="icon-trash icon-white"></i> 削除', array('class' => 'btn btn-sm btn-danger', 'onclick' => "return confirm('本当に削除しますか?')")); ?>
+							<?php echo Html::anchor('users/content/view/'.$item->id, '<i class="icon-eye-open"></i> プレビュー', array('class' => 'btn btn-default btn-sm', 'style' => 'margin-bottom: 5px')); ?>						<?php echo Html::anchor('users/content/edit/'.$item->id, '<i class="icon-wrench"></i> 修正', array('class' => 'btn btn-default btn-sm', 'style' => 'margin-bottom: 5px')); ?>						<?php echo Html::anchor('users/content/delete/'.$item->id, '<i class="icon-trash icon-white"></i> 削除', array('class' => 'btn btn-sm btn-danger', 'onclick' => "return confirm('本当に削除しますか?')")); ?>
 						<div class="gender block">
-							<input type="radio" name="mainflg" id="main" value="<?php echo $item->id; ?>" <?php if ($item->mainflg == 1) {?> checked="checked" <?php } ?> ><br />
+							<input type="radio" name="mainflg" id="main" value="<?php echo $item->id; ?>" <?php if ($item->mainflg == 1) {?> checked="checked" <?php } ?> onclick="setid('<?php echo $item->id; ?>');"><br />
 						</div>
 					
 					</div>

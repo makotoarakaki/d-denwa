@@ -53,6 +53,7 @@ class Controller_Users_Content extends Controller_Users
 		}
 		
 		$this->template->title = "";
+		$this->template->set_global('id', $id, false);
 		$this->template->content = View::forge('users/content/view', $data);
 	}
 
@@ -93,10 +94,21 @@ class Controller_Users_Content extends Controller_Users
 					}				
 				} 
 				
+				// mainflgを全て0へ更新
+				$update = DB::update('contents');
+				$update->set(array(
+								'mainflg' => 0,
+							)
+				);
+				$ret = $update->execute('user_db');
+				if($ret <= 0) {
+					Session::set_flash('error', 'meinflgの更新に失敗しました。');					
+				}
+
 				// データベースへ登録
 				$query = DB::insert('contents');
-				$query->columns(array('title', 'filename', 'overview', 'created_at', 'updated_at'));
-				$query->values(array(Input::post('title'),$filename ,Input::post('overview'), time(), time()));
+				$query->columns(array('title', 'filename', 'overview', 'mainflg', 'created_at', 'updated_at'));
+				$query->values(array(Input::post('title'),$filename ,Input::post('overview'), 1, time(), time()));
 				if ($query->execute('user_db'))
 				{
 					Session::set_flash('success', '広告情報を追加しました。');
@@ -176,7 +188,7 @@ class Controller_Users_Content extends Controller_Users
 			} else {
 				$filename = Input::post('filename');
 			}
-			$query = DB::update('contents');
+			$query = DB::update('contents')->where('id', $id);
 			$query->set(array(
 							'title' => Input::post('title'),
 							'filename' => $filename,
@@ -209,6 +221,7 @@ class Controller_Users_Content extends Controller_Users
 			}
 
 			$this->template->set_global('contents', $contents, false);
+			$this->template->set_global('id', $id, false);
 		}
 
 		$this->template->title = "広告管理";
