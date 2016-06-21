@@ -19,11 +19,13 @@ class Controller_Admin extends Controller_Base
 		{
 			if (Auth::check())
 			{
-				$admin_group_id = Config::get('auth.driver', 'Simpleauth') == 'Ormauth' ? 6 : 100;
-				if ( ! Auth::member($admin_group_id))
+//				$admin_group_id = Config::get('auth.driver', 'Simpleauth') == 'Ormauth' ? 6 : 100;
+//				if ( ! Auth::member($admin_group_id))
+				if ( !Auth::member(100))
 				{
-					Session::set_flash('error', e('You don\'t have access to the admin panel'));
-					Response::redirect('/');
+					Session::set_flash('error', e('アクセス権限がありません！'));
+					Auth::logout();
+					Response::redirect('admin');
 				}
 			}
 			else
@@ -67,7 +69,7 @@ class Controller_Admin extends Controller_Base
 				}
 			}
 		}
-		$this->template->title = '管理者ログイン';
+		$this->template->title = 'ログイン';
 		$this->template->content = View::forge('admin/login', array('val' => $val), false);
 	}
 	/**

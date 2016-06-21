@@ -37,6 +37,7 @@ class Model_User extends \Orm\Model
 		$val->add_field('username', 'ユーザーID', 'alphanum|required|max_length[50]');
 		$val->add_field('password', 'パスワード', 'required|max_length[255]');
 		$val->add_field('email', 'メールアドレス', 'required|valid_email|max_length[50]');
+		$val->add_field('group', 'グループ', 'required');
 
 		return $val;
 	}

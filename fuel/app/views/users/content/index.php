@@ -1,9 +1,4 @@
 <script>
-var val = 0;
-function setid(value) {
-	alert('setval');
-	val = value;
-}
 window.onload = function(){
 
 		$('.gender :radio').rcSwitcher({
@@ -19,10 +14,8 @@ window.onload = function(){
 		// Listen to status changes
 		.on( 'turnon.rcSwitcher', function( e, data ){
 			//POSTメソッドで送るデータを定義します var flg = {パラメータ名 : 値};
-//			var flg = {request : $('#main').val()};
-			var flg = {request : val};
-//alert(data.$input[0].mainflg.value());
-alert($('#main').val());
+//alert($('input[name=mainflg]:checked').val());
+			var flg = {request : $('input[name=mainflg]:checked').val()};
 			/**
 			 * Ajax通信メソッド
 			 * @param type  : HTTP通信の種類

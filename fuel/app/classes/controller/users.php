@@ -19,11 +19,13 @@ class Controller_Users extends Controller_Base
 		{
 			if (Auth::check())
 			{
-				$users_group_id = Config::get('auth.driver', 'Simpleauth') == 'Ormauth' ? 6 : 100;
-				if ( ! Auth::member($users_group_id))
+//				$users_group_id = Config::get('auth.driver', 'Simpleauth') == 'Ormauth' ? 6 : 100;
+//				if ( ! Auth::member($users_group_id))
+				if ( !(Auth::member(100) || Auth::member(1)))
 				{
-					Session::set_flash('error', e('You don\'t have access to the users panel'));
-					Response::redirect('/');
+					Session::set_flash('error', e('ログイン権限がありません！'));
+					Auth::logout();
+					Response::redirect('admin');
 				}
 			}
 			else

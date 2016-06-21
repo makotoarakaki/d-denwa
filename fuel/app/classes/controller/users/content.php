@@ -100,8 +100,7 @@ class Controller_Users_Content extends Controller_Users
 								'mainflg' => 0,
 							)
 				);
-				$ret = $update->execute('user_db');
-				if($ret <= 0) {
+				if($update->execute('user_db') <= 0) {
 					Session::set_flash('error', 'meinflgの更新に失敗しました。');					
 				}
 
@@ -284,8 +283,7 @@ class Controller_Users_Content extends Controller_Users
 							'filename' => '',
 						)
 			);
-			$ret = $query->execute('user_db');
-			if(1 <= $ret)
+			if(1 <= $query->execute('user_db'))
 			{
 				Session::set_flash('success', 'ファイルを削除しました。');				
 			} else {
@@ -303,9 +301,29 @@ class Controller_Users_Content extends Controller_Users
 	}
 	public function action_mainflg()
 	{
+		//ラジオボタンの値を取得
 		$id = Input::post('request');
-		Response::redirect('users/content');
+		
+		// mainflgを全て0へ更新
+		$init = DB::update('contents');
+		$init->set(array(
+						'mainflg' => 0,
+					)
+		);
+		if($init->execute('user_db') <= 0) {
+			Session::set_flash('error', 'meinflgの更新に失敗しました。');					
+		}
+		// 選択のレコードにmainflg = 1 を設定
+		$update = DB::update('contents')->where('id', $id);
+		$update->set(array(
+						'mainflg' => 1,
+					)
+		);
+		if($update->execute('user_db') <= 0) {
+			Session::set_flash('error', 'meinflgの更新に失敗しました。');					
+		}
 
+		Response::redirect('users/content');
 	}
 	
 }
