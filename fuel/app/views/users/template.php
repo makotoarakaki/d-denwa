@@ -61,15 +61,6 @@
 					<li class="<?php echo Uri::segment(2) == $basicinfo_segment ? 'active' : '' ?>">
 						<?php echo Html::anchor('users/basicinfo', '基本情報') ?>
 					</li>
-<!--
-					<?php
-						$user_files = new GlobIterator(APPPATH.'classes/controller/users/user.php');
-						$user_segment = $user_files->getBasename('.php');
-					?>
-					<li class="<?php echo Uri::segment(2) == $user_segment ? 'active' : '' ?>">
-						<?php echo Html::anchor('users/user', 'ユーザー管理') ?>
-					</li>
--->
 				</ul>
 				<ul class="nav navbar-nav pull-right">
 					<li class="dropdown">

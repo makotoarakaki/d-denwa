@@ -5,7 +5,7 @@ class Controller_Users_Basicinfo extends Controller_Users
 	public function action_index()
 	{
 		$this->template->title = "基本情報";
-		$info = DB::select('temponame', 'telno')->from('basicinfo')->execute('user_db')->as_array();
+		$info = DB::select('temponame', 'telno')->from('basicinfo')->execute('user_db');
 
 		$this->template->set_global('info', $info, false);
 		$this->template->content = View::forge('users/basicinfo/index');
