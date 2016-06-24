@@ -19,14 +19,11 @@ class Controller_Ddenwa extends Controller
 	public function action_index()
 	{
 		// 広告情報の取得
-		$data['contents'] = Model_Content::query()
+		$data['contents'] = Model_Content::query()->connection('user_db')
 			->where('mainflg', 1)->get();
 		// 基本情報の取得
-		$info = Model_Basicinfo::find('first');
+		$info = DB::select('temponame', 'telno')->from('basicinfo')->execute('user_db');
  
-//		$data['temponame'] = $info->temponame;
-//		$data['telno'] = $info->telno;
-
 		if ( ! $data)
 		{
 			Session::set_flash('error', '広告情報がありませんでした。');
@@ -34,8 +31,8 @@ class Controller_Ddenwa extends Controller
 		}
 		
         $view = View::forge('ddenwa/index', $data);
-		$view->set('temponame', $info->temponame);
-		$view->set('telno', $info->telno);
+		$view->set('temponame', $info[0]['temponame']);
+		$view->set('telno', $info[0]['telno']);
 
 		return Response::forge($view);		
 	}
