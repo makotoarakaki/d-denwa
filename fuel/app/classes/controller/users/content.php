@@ -100,7 +100,7 @@ class Controller_Users_Content extends Controller_Users
 								'mainflg' => 0,
 							)
 				);
-				if($update->execute('user_db') <= 0) {
+				if($update->execute('user_db') < 0) {
 					Session::set_flash('error', 'meinflgの更新に失敗しました。');					
 				}
 
