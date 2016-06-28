@@ -1,15 +1,14 @@
-		<div class="centered col-md-12 col-sm-12 col-xs-12">
+		<div class="col-md-12 col-sm-12 col-xs-12">
 			<p><h1><?php echo $content[$id]['title']; ?></h1></p>
 <?php
 		if (!empty($content[$id]['filename'])) {
-			$image_path = \File::get(DOCROOT.'/uploads/'.$content[$id]['filename']);		
+			$image_path = 'uploads/'.$content[$id]['filename'];		
 		} else {
-			$image_path = \File::get(DOCROOT.'/uploads/no_photo.gif');
+			$image_path = 'uploads/no_photo.gif';
 		}
-		$url = $image_path->get_path();
 ?>
 			<div id ="photo">
-				<p><h1><?php echo Html::img($url); ?></h1></p>
+				<p><h1><?php echo Html::img($image_path); ?></h1></p>
 			</div>
 			<p><h3><?php echo $content[$id]['overview']; ?></h3></p>
 		</div>

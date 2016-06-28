@@ -282,7 +282,7 @@ class Controller_Users_Content extends Controller_Users
 			$query->set(array(
 							'filename' => '',
 						)
-			);
+			)->where('id', $id);
 			if(1 <= $query->execute('user_db'))
 			{
 				Session::set_flash('success', 'ファイルを削除しました。');				

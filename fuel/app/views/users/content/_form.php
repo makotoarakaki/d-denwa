@@ -17,11 +17,9 @@
 					if (!empty($contents[$id]['filename'])) {
 						$filename = $contents[$id]['filename'];
 						// 保存先よろファイル名を取得
-						$image_path = \File::get(DOCROOT.'/uploads/'.$filename);
-						$url = $image_path->get_path();
 						echo Form::hidden('filename', $filename);
 				?>
-						<?php echo Html::img($url, array('class' => 'thumbnail')); ?>
+						<?php echo Html::img('uploads/'.$filename, array('class' => 'thumbnail')); ?>
 					<p><?php echo Html::anchor('users/content/image_delete/'.$contents[$id]['id'], '<i class="icon-trash icon-white"></i> 削除', array('class' => 'btn btn-sm btn-danger', 'onclick' => "return confirm('この画像を本当に削除しますか?')")); ?></p>
 				<?php
 					}					

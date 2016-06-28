@@ -77,14 +77,9 @@
 							<?php 
 								//ファイル名取得
 								$filename = $item->filename;
-								if (!empty($filename)) {
-								// 保存先よろファイル名を取得
-									$image_path = \File::get(DOCROOT.'/uploads/'.$filename);
-									$url = $image_path->get_path();
-								}
 							?>
 
-							<span class="image main"><a href="tel:"<?php echo $telno; ?>><?php echo Html::img($url, array('class' => 'thumbnail')); ?></a></span>
+							<span class="image main"><a href="tel:'<?php echo $telno; ?>'"><?php echo Html::img('uploads/'.$filename, array('class' => 'thumbnail')); ?></a></span>
 							<p><?php echo $item->overview; ?></p>
 						</div>
 					<?php endforeach; ?>

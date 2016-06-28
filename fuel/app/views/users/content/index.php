@@ -66,7 +66,7 @@ window.onload = function(){
 <table class="table table-striped indexTable">
 	<thead>
 		<tr>
-			<th width="55">&nbsp;</th>
+			<th width="60">&nbsp;</th>
 			<th width="80">タイトル</th>
 			<th width="500">イメージ</th>
 			<th width="130">更新日時</th>
@@ -75,10 +75,10 @@ window.onload = function(){
 	 <tbody>
 <?php foreach ($contents as $item): ?>		<tr>
 
-			<td width="55">
+			<td width="60">
 				<div class="btn-toolbar">
 					<div class="btn-group">
-							<?php echo Html::anchor('users/content/view/'.$item->id, '<i class="icon-eye-open"></i> プレビュー', array('class' => 'btn btn-default btn-sm', 'style' => 'margin-bottom: 5px')); ?>						<?php echo Html::anchor('users/content/edit/'.$item->id, '<i class="icon-wrench"></i> 修正', array('class' => 'btn btn-default btn-sm', 'style' => 'margin-bottom: 5px')); ?>						<?php echo Html::anchor('users/content/delete/'.$item->id, '<i class="icon-trash icon-white"></i> 削除', array('class' => 'btn btn-sm btn-danger', 'onclick' => "return confirm('本当に削除しますか?')")); ?>
+							<?php echo Html::anchor('users/content/view/'.$item->id, '<i class="icon-eye-open"></i> プレビュー', array('class' => 'btn btn-default btn-sm', 'style' => 'margin-bottom: 5px; width: 70px;')); ?>						<?php echo Html::anchor('users/content/edit/'.$item->id, '<i class="icon-wrench"></i> 修正', array('class' => 'btn btn-default btn-sm', 'style' => 'margin-bottom: 5px; width: 70px;')); ?>						<?php echo Html::anchor('users/content/delete/'.$item->id, '<i class="icon-trash icon-white"></i> 削除', array('class' => 'btn btn-sm btn-danger', 'style' => 'margin-bottom: 5px; width: 70px;', 'onclick' => "return confirm('本当に削除しますか?')")); ?>
 						<div class="gender block">
 							<input type="radio" name="mainflg" id="main" value="<?php echo $item->id; ?>" <?php if ($item->mainflg == 1) {?> checked="checked" <?php } ?> onclick="setid('<?php echo $item->id; ?>');"><br />
 						</div>
@@ -91,11 +91,9 @@ window.onload = function(){
 				//ファイル名取得
 				$filename = $item->filename;
 				if (!empty($filename)) {
-				// 保存先よろファイル名を取得
-					$image_path = \File::get(DOCROOT.'/uploads/'.$filename);
-					$url = $image_path->get_path();	
+					// 保存先よろファイル名を取得
 			?>
-					<td width="500"><?php echo Html::img($url, array('class' => 'thumbnail')); ?></td>
+					<td width="500"><?php echo Html::img('uploads/'.$filename, array('class' => 'thumbnail')); ?></td>
 			<?php
 				} else {
 			?>

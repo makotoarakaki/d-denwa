@@ -105,7 +105,7 @@
 		</div>
 		<!--<hr/>-->
 		<footer class="centered">
-			<p>Copyright © 2015 エムエークリエイション. All rights reserved</p>
+			<p>Copyright © 2016 ddenwa.com. All rights reserved</p>
 		</footer>
 	</div>
 </body>
