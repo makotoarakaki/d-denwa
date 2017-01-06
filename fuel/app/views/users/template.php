@@ -7,18 +7,17 @@
 	<?php echo Asset::css(array(
 		'bootstrap.css',
 		'mycss.css',
-//		'ddenwa/rcs/style.min.css',
 		'ddenwa/rcs/rcswitcher.min.css',
+                'themes/base/jquery.ui.all.css',
 	)); ?>
 
 	<?php echo Asset::js(array(
-		'http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js',
-		'jqGrid/js/jquery-1.11.0.min.js',
-		'jqGrid/js/jquery-ui-1.10.4.custom.min.js',
-		'bootstrap.js',
+                'http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js',
 		'ddenwa/rcs/jquery-2.1.3.min.js',
 		'ddenwa/rcs/rcswitcher.min.js',
-	)); ?>
+                'jquery-ui-1.10.0.custom.min.js',
+		'bootstrap.js',
+ 	)); ?>
 	<style>
 /*		body { margin: 50px; } */
 		body { margin: 95px; }

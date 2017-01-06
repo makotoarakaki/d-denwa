@@ -35,7 +35,11 @@ class Controller_Users_Content extends Controller_Users
 			->rows_limit($_perpage)
 		->get();
 		
-		$this->template->set_global('total_customers', $pagination->total_items, false);
+		// 基本情報の取得
+		$info = DB::select('telno')->from('basicinfo')->execute('user_db');
+                $this->template->set_global('telno', $info[0]['telno'], false);
+
+                $this->template->set_global('total_customers', $pagination->total_items, false);
 
 		$this->template->title = "広告管理"; //default
 		$this->template->content = View::forge('users/content/index', $data);//default
@@ -61,69 +65,79 @@ class Controller_Users_Content extends Controller_Users
 	{
 		if (Input::method() == 'POST')
 		{
-			$val = Model_Content::validate('create');
-			
-			if ($val->run())
-			{
-				// 設定（ファイル保存場所）
-				$config = array(
-					'path' => DOCROOT . 'uploads/',
-					'randomize' => true,
-					'ext_whitelist' => array('pdf', 'img', 'jpg', 'jpeg', 'gif', 'png'),
-				);
+                        // ログインユーザー情報を取得
+                        $current_user = Model\Auth_User::find_by_username(Auth::get_screen_name());
+                        // DBよりデータを取得
+                        $users = Model_User::query()->where('id', $current_user->id)->get();
+                        // カウントを取得
+                        $count = $users[$current_user->id]['count'];
+                        // カウントの制御判断
+                        if ($this->check_count($count)) {
+                            $val = Model_Content::validate('create');
 
-				// アップロード実行
-				Upload::process($config, 
-					array(
-						'max_size'    => 10240,
-						'auto_rename' => false,
-						'overwrite'   => true
-					));
+                            if ($val->run())
+                            {
+                                    // 設定（ファイル保存場所）
+                                    $config = array(
+                                            'path' => DOCROOT . 'uploads/',
+                                            'randomize' => true,
+                                            'ext_whitelist' => array('pdf', 'img', 'jpg', 'jpeg', 'gif', 'png'),
+                                    );
 
-				// 検証
-				$filename = '';
-				$file = $_FILES['upload'];
-				if (Upload::is_valid())
-				{
-					// アップロードファイルを保存
-					Upload::save();
-					
-					foreach (Upload::get_files() as $file)
-					{
-						$filename = $file['saved_as'];
-					}				
-				} 
-				
-				// mainflgを全て0へ更新
-				$update = DB::update('contents');
-				$update->set(array(
-								'mainflg' => 0,
-							)
-				);
-				if($update->execute('user_db') < 0) {
-					Session::set_flash('error', 'meinflgの更新に失敗しました。');					
-				}
+                                    // アップロード実行
+                                    Upload::process($config, 
+                                            array(
+                                                    'max_size'    => 10240,
+                                                    'auto_rename' => false,
+                                                    'overwrite'   => true
+                                            ));
 
-				// データベースへ登録
-				$query = DB::insert('contents');
-				$query->columns(array('title', 'filename', 'overview', 'mainflg', 'created_at', 'updated_at'));
-				$query->values(array(Input::post('title'),$filename ,Input::post('overview'), 1, time(), time()));
-				if ($query->execute('user_db'))
-				{
-					Session::set_flash('success', '広告情報を追加しました。');
+                                    // 検証
+                                    $filename = '';
+                                    $file = $_FILES['upload'];
+                                    if (Upload::is_valid())
+                                    {
+                                            // アップロードファイルを保存
+                                            Upload::save();
 
-					Response::redirect('users/content');
-				}
+                                            foreach (Upload::get_files() as $file)
+                                            {
+                                                    $filename = $file['saved_as'];
+                                            }				
+                                    } 
 
-				else
-				{
-					Session::set_flash('error', '広告情報の追加に失敗しました。');
-				}
-			}
-			else
-			{
-				Session::set_flash('error', $val->error());
-			}
+                                    // mainflgを全て0へ更新
+                                    $update = DB::update('contents');
+                                    $update->set(array(
+                                                                    'mainflg' => 0,
+                                                            )
+                                    );
+                                    if($update->execute('user_db') < 0) {
+                                            Session::set_flash('error', 'meinflgの更新に失敗しました。');					
+                                    }
+
+                                    // データベースへ登録
+                                    $query = DB::insert('contents');
+                                    $query->columns(array('title', 'filename', 'overview', 'mainflg', 'created_at', 'updated_at'));
+                                    $query->values(array(Input::post('title'),$filename ,Input::post('overview'), 1, time(), time()));
+                                    if ($query->execute('user_db'))
+                                    {
+                                            Session::set_flash('success', '広告情報を追加しました。');
+
+                                            Response::redirect('users/content');
+                                    }
+
+                                    else
+                                    {
+                                            Session::set_flash('error', '広告情報の追加に失敗しました。');
+                                    }
+                            }
+                            else
+                            {
+                                    Session::set_flash('error', $val->error());
+                            }
+                            
+                        }
 		}
 		$this->template->title = "広告管理";
 		$this->template->content = View::forge('users/content/create');
@@ -249,6 +263,15 @@ class Controller_Users_Content extends Controller_Users
 			// データの削除
 			$query = DB::delete('contents')->and_where('id', $id);
 			$query->execute('user_db');
+                        
+                        $cnt = DB::select()->from('contents')->execute('user_db')->count();
+                        // データが1件ならmeinflg '1'へ更新
+                        if ($cnt == 1) {
+                            DB::update('contents')->set(array(
+                                            'mainflg' => 1,
+                                    ))->execute('user_db');                           
+                        }
+
 
 			Session::set_flash('success', '広告情報を削除しました。');
 		}
@@ -325,5 +348,27 @@ class Controller_Users_Content extends Controller_Users
 
 		Response::redirect('users/content');
 	}
+        
+        private function check_count($count) {
+            // データ件数を取得
+            $cnt = DB::select()->from('contents')->execute('user_db')->count();
+            if ($count == '2') {
+                if (2 <= $cnt) {
+                    Session::set_flash('error', 'お客様がご利用出来るデータは2個までです。');					
+                    return false;                    
+                } else {
+                    return true;                    
+                }
+            } else if ($count == '5') {
+                if (5 <= $cnt) {
+                    Session::set_flash('error', 'お客様がご利用出来るデータは５個までです。');					
+                    return false;                                    
+                } else {
+                    return true;
+                }
+            } else {
+                return true;
+            }
+        }
 	
 }

@@ -30,6 +30,7 @@ class Controller_Admin_User extends Controller_Admin
 				$auth = Auth::create_user(
 					Input::post('username'),
 					Input::post('password'),
+					Input::post('count'),
 					Input::post('email'),
 					Input::post('group'),
 					array(
@@ -102,7 +103,9 @@ Log::debug('ユーザーパスワード', $user->password);
 			{
 				$user->username = $val->validated('username');
 				$user->password = $val->validated('password');
+				$user->count = $val->validated('count');
 				$user->email = $val->validated('email');
+				$user->group = $val->validated('group');
 
 				Session::set_flash('error', $val->error());
 			}

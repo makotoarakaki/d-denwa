@@ -229,7 +229,7 @@ class Auth_Login_Simpleauth extends \Auth_Login_Driver
 	 * @param   Array
 	 * @return  bool
 	 */
-	public function create_user($username, $password, $count, $email, $group = 1, Array $profile_fields = array())
+	public function create_user($username, $password, $email, $group = 1, Array $profile_fields = array())
 	{
 		$password = trim($password);
 		$email = filter_var(trim($email), FILTER_VALIDATE_EMAIL);
@@ -260,7 +260,6 @@ class Auth_Login_Simpleauth extends \Auth_Login_Driver
 		$user = array(
 			'username'        => (string) $username,
 			'password'        => $this->hash_password((string) $password),
-			'count'           => $count,
 			'email'           => $email,
 			'group'           => (int) $group,
 			'profile_fields'  => serialize($profile_fields),

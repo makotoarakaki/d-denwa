@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>メイン</title>
+	<title><?php echo $temponame; ?></title>
 	<?php echo Asset::css(array(
 		'ddenwa/assets/css/main.css',
 	)); ?>
@@ -42,21 +42,24 @@
 						<div class="inner">
 
 							<!-- Logo -->
-								<a href="index.html" class="logo">
-									<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">D-Denwa</span>
+								<a href="ddenwa.php" class="logo">
+									<span><?php echo Html::img('assets/img/logo.png'); ?></span>
 								</a>
 
 							<!-- Nav -->
+							<!--
 								<nav>
 									<ul>
 										<li><a href="#menu">Menu</a></li>
 									</ul>
 								</nav>
+							-->
 
 						</div>
 					</header>
 
 				<!-- Menu -->
+<!--
 					<nav id="menu">
 						<h2>Menu</h2>
 						<ul>
@@ -67,7 +70,7 @@
 							<li><a href="elements.html">Elements</a></li>
 						</ul>
 					</nav>
-
+-->
 				<!-- Main -->
 					<div id="main">
 					<?php foreach ($contents as $item): ?>
@@ -87,6 +90,7 @@
 
 				<!-- Footer -->
 					<footer id="footer">
+<!--
 						<div class="inner">
 							<section>
 								<h2>Get in touch</h2>
@@ -118,8 +122,9 @@
 									<li><a href="#" class="icon style2 fa-envelope-o"><span class="label">Email</span></a></li>
 								</ul>
 							</section>
+-->
 							<ul class="copyright">
-								<li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+								<p>&copy; Untitled. All rights reserved D-Denwa.com</p>
 							</ul>
 						</div>
 					</footer>
