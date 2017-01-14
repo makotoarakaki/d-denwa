@@ -15,8 +15,8 @@
                 'http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js',
 		'ddenwa/rcs/jquery-2.1.3.min.js',
 		'ddenwa/rcs/rcswitcher.min.js',
-                'jquery-ui-1.10.0.custom.min.js',
 		'bootstrap.js',
+                'jquery-ui-1.10.0.custom.min.js',
  	)); ?>
 	<style>
 /*		body { margin: 50px; } */

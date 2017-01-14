@@ -59,7 +59,7 @@ window.onload = function(){
                         modal:true,
                         resizable:true,
                         width:500,
-                        height:400,
+                        height:250,
                         minWidth:200,
                         minHeight:150,
                         maxWidth:550,
@@ -96,40 +96,47 @@ window.onload = function(){
 	 <tbody>
 <?php foreach ($contents as $item): ?>		<tr>
 
-			<td width="60">
+			<td width="200">
 				<div class="btn-toolbar">
 				    <div class="btn-group">
-							<?php echo Html::anchor('users/content/view/'.$item->id, '<i class="icon-eye-open"></i> プレビュー', array('class' => 'btn btn-default btn-sm', 'style' => 'margin-bottom: 5px; width: 70px;')); ?>						
-                                                        <?php echo Html::anchor('users/content/edit/'.$item->id, '<i class="icon-wrench"></i> 修正', array('class' => 'btn btn-default btn-sm', 'style' => 'margin-bottom: 5px; width: 70px;')); ?>						
-                                                        <?php echo Html::anchor('users/content/delete/'.$item->id, '<i class="icon-trash icon-white"></i> 削除', array('class' => 'btn btn-sm btn-danger', 'style' => 'margin-bottom: 5px; width: 70px;', 'onclick' => "return confirm('本当に削除しますか?')")); ?>
-						<div class="gender block">
-							<input type="radio" name="mainflg" id="main" value="<?php echo $item->id; ?>" <?php if ($item->mainflg == 1) {?> checked="checked" <?php } ?> onclick="setid('<?php echo $item->id; ?>');"><br />
-						</div>
-                                            <?php
-                                            //ファイル名取得
-                                            $filename = $item->filename;
-                                            ?>
-                                            <?php if ($item->mainflg == 1) { ?>
-                                                <div id="dialog" title="下のHTMLをコピーしてリンクをコピーしてください。">
-                                                        <a href="tel:'<?php echo $telno; ?>'">
-                                                            <iframe frameborder="0" scrolling="no" style="height: 180px; width: 275px;" src="<?php if (!empty($filename)) { echo Html::img('uploads/'.$filename); } ?>"></iframe>
-                                                            <!--<?php if (!empty($filename)) { echo Html::img('uploads/'.$filename, array('class' => 'thumbnail')); } ?>-->
-                                                        </a>
-							<p><?php echo $item->overview; ?></p>
-                                                </div>
-                                                <p id="dialog_open">
-                                                    <?php echo Html::anchor('#', '<i class="icon-wrench"></i> リンクコピー', array('class' => 'btn btn-default btn-sm', 'style' => 'margin-bottom: 5px; width: 70px;')); ?>
-                                                </p>
-                                            <?php } ?>
+                                                <?php echo Html::anchor('users/content/view/'.$item->id, '<i class="icon-eye-open"></i> プレビュー', array('class' => 'btn btn-default btn-sm', 'style' => 'margin-bottom: 5px; width: 70px;')); ?>						
+                                                <?php echo Html::anchor('users/content/edit/'.$item->id, '<i class="icon-wrench"></i> 修正', array('class' => 'btn btn-default btn-sm', 'style' => 'margin-bottom: 5px; width: 70px;')); ?>						
+                                                <?php echo Html::anchor('users/content/delete/'.$item->id, '<i class="icon-trash icon-white"></i> 削除', array('class' => 'btn btn-sm btn-danger', 'style' => 'margin-bottom: 5px; width: 70px;', 'onclick' => "return confirm('本当に削除しますか?')")); ?>
+                                        <div class="gender block">
+                                                <input type="radio" name="mainflg" id="main" value="<?php echo $item->id; ?>" <?php if ($item->mainflg == 1) {?> checked="checked" <?php } ?> onclick="setid('<?php echo $item->id; ?>');"><br />
+                                        </div>
                                     </div>
 				</div>
 			</td>
 			<td width="80"><?php echo $item->title; ?></td>
 			<?php 
+                                //ファイル名取得
+                                $filename = $item->filename;
 				if (!empty($filename)) {
 					// 保存先よろファイル名を取得
 			?>
-					<td width="500"><?php echo Html::img('uploads/'.$filename, array('class' => 'thumbnail')); ?></td>
+                                    <td width="500">
+                                        <p id="dialog_open">
+                                            <?php echo Html::img('uploads/'.$filename, array('class' => 'thumbnail')); ?>
+                                            <br/>
+                                            <?php if ($item->mainflg == 1) { ?>
+                                                <div id="dialog" title="下のHTMLをコピーしてください。">
+                                                    <?php 
+                                                        $src = '';
+                                                        if (!empty($filename)) { 
+                                                            $src = Html::img('uploads/'.$filename, array('style' => 'height: 180px; width: 275px;'));
+                                                        }
+                                                    ?>
+                                                    <?php $value = '<a href="tel:\'' .$telno. '\'">' .$src. '</a>' ?>
+                                                    <?php echo Form::textarea('description', $value, array('class' => 'form-control', 'rows' => 5, 'cols' => 50)); ?>
+						 <p><?php echo $item->overview; ?></p>
+                                                </div>
+                                                <p id="dialog_open">
+                                                    <?php echo Html::anchor('#', '<i class="icon-wrench glyphicon glyphicon-share"></i> 埋め込む', array('class' => 'btn btn-md btn-success', 'style' => 'margin-bottom: 5px; width: 100px;')); ?>
+                                                </p>
+                                            <?php } ?>
+                                        </p>
+                                    </td>
 			<?php
 				} else {
 			?>
